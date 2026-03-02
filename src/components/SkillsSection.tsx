@@ -11,7 +11,16 @@ import {
   Layers,
   Braces,
   Layout,
-  ChevronDown
+  ChevronDown,
+  GitBranch,
+  Terminal,
+  Box,
+  Triangle,
+  Send,
+  Figma,
+  BookOpen,
+  TestTube,
+  Code
 } from "lucide-react";
 
 const GITHUB_USERNAME = "Rudra152005";
@@ -237,8 +246,36 @@ const SkillsSection = () => {
     }
   ];
 
-  const tools = [
-    "Git", "Docker", "Vercel", "Figma", "VS Code", "Postman", "Linux", "Storybook", "Jest"
+  const toolCategories = [
+    {
+      name: "Development",
+      tools: [
+        { name: "VS Code", icon: Code, desc: "Primary code editor" },
+        { name: "Git", icon: GitBranch, desc: "Version control" },
+        { name: "Linux", icon: Terminal, desc: "Env & Scripting" },
+      ]
+    },
+    {
+      name: "Deployment",
+      tools: [
+        { name: "Docker", icon: Box, desc: "Containerization" },
+        { name: "Vercel", icon: Triangle, desc: "Frontend hosting" },
+      ]
+    },
+    {
+      name: "Design & API",
+      tools: [
+        { name: "Figma", icon: Figma, desc: "UI/UX Prototyping" },
+        { name: "Postman", icon: Send, desc: "API Development" },
+      ]
+    },
+    {
+      name: "Testing",
+      tools: [
+        { name: "Jest", icon: TestTube, desc: "Unit testing" },
+        { name: "Storybook", icon: BookOpen, desc: "Component docs" },
+      ]
+    }
   ];
 
   return (
@@ -305,17 +342,53 @@ const SkillsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-24 text-center"
+          className="mt-24"
         >
-          <h3 className="font-display text-xl font-semibold text-white/80 mb-8">Daily Tools & Technologies</h3>
-          <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-            {tools.map((tool) => (
-              <span
-                key={tool}
-                className="px-5 py-2.5 rounded-full border border-white/10 bg-white/5 text-sm font-medium text-white/70 hover:text-primary hover:border-primary/50 hover:bg-primary/10 transition-all duration-300 cursor-default"
+          <div className="text-center mb-12">
+            <h3 className="font-display text-3xl font-bold text-white mb-4 tracking-tight">Daily Tools & Technologies</h3>
+            <p className="text-muted-foreground text-md max-w-xl mx-auto font-light">
+              My core environment for designing, developing, testing, and deploying robust applications.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {toolCategories.map((cat, catIdx) => (
+              <motion.div
+                key={cat.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: 0.4 + (catIdx * 0.1) }}
+                className="flex flex-col space-y-4"
               >
-                {tool}
-              </span>
+                <h4 className="text-sm font-semibold text-white/50 uppercase tracking-widest pl-2 border-l-2 border-primary/50">
+                  {cat.name}
+                </h4>
+                <div className="flex flex-col gap-3">
+                  {cat.tools.map((tool) => (
+                    <div
+                      key={tool.name}
+                      className="group relative flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-[#0a0a0f] shadow-lg transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:border-primary/40 hover:bg-[#11111a] hover:shadow-[0_0_20px_0_hsl(var(--primary)/0.1)] overflow-hidden"
+                    >
+                      {/* Subtle hover background sweep */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                      <div className="relative z-10 flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 text-white/70 group-hover:bg-primary/20 group-hover:text-primary transition-all duration-300">
+                        <tool.icon className="w-5 h-5" />
+                      </div>
+
+                      <div className="relative z-10 flex flex-col">
+                        <span className="text-sm font-bold text-white/90 group-hover:text-white transition-colors">
+                          {tool.name}
+                        </span>
+                        <span className="text-xs text-white/40 group-hover:text-primary/80 transition-colors">
+                          {tool.desc}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>
