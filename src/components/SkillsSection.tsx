@@ -33,8 +33,17 @@ const SkillCard = ({ name, icon: Icon, proofs, delay }: SkillCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay }}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
+      onPointerEnter={(e) => {
+        if (e.pointerType === "mouse") {
+          setIsExpanded(true);
+        }
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType === "mouse") {
+          setIsExpanded(false);
+        }
+      }}
+      onClick={() => setIsExpanded((prev) => !prev)}
       className="relative flex flex-col p-6 rounded-2xl bg-[#0a0a0f] border border-white/5 shadow-2xl transition-all duration-500 hover:border-primary/50 hover:bg-[#11111a] group cursor-default overflow-hidden"
     >
       {/* Background Glow */}
