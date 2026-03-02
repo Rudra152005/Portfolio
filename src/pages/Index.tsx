@@ -7,20 +7,37 @@ import ProjectsSection from "@/components/ProjectsSection";
 import EducationSection from "@/components/EducationSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import Loader from "@/components/Loader";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <HeroSection />
-      <AboutSection />
-      <SkillsSection />
-      <ProblemSolvingDashboard />
-      <ProjectsSection />
-      <EducationSection />
-      <ContactSection />
-      <Footer />
-    </div>
+    <>
+      {isLoading && <Loader onComplete={() => setIsLoading(false)} />}
+
+      <motion.div
+        initial={{ opacity: 0, scale: 1.05 }}
+        animate={{
+          opacity: isLoading ? 0 : 1,
+          scale: isLoading ? 1.05 : 1
+        }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="min-h-screen bg-background overflow-hidden"
+      >
+        <Navbar />
+        <HeroSection />
+        <AboutSection />
+        <SkillsSection />
+        <ProblemSolvingDashboard />
+        <ProjectsSection />
+        <EducationSection />
+        <ContactSection />
+        <Footer />
+      </motion.div>
+    </>
   );
 };
 
