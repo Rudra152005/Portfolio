@@ -17,6 +17,12 @@ import {
 const GITHUB_USERNAME = "Rudra152005";
 const LEETCODE_USERNAME = "RudraTiwari";
 
+interface GithubRepo {
+  language?: string;
+  description?: string;
+  topics?: string[];
+}
+
 interface SkillCardProps {
   name: string;
   icon: React.ElementType;
@@ -97,7 +103,7 @@ const SkillCard = ({ name, icon: Icon, proofs, delay }: SkillCardProps) => {
 };
 
 const SkillsSection = () => {
-  const [githubData, setGithubData] = useState<{ repos?: Array<Record<string, unknown>> } | null>(null);
+  const [githubData, setGithubData] = useState<{ repos?: GithubRepo[] } | null>(null);
   const [leetcodeData, setLeetcodeData] = useState<{ totalSolved?: number; streak?: number; hardSolved?: number } | null>(null);
 
   useEffect(() => {
@@ -135,12 +141,12 @@ const SkillsSection = () => {
   const repos = Array.isArray(githubData?.repos) ? githubData.repos : [];
 
   // Frontend dynamic metrics
-  const reactRepos = repos.filter(r => r.language === "TypeScript" || r.language === "JavaScript" || r.description?.toLowerCase().includes("react")).length || 6;
-  const tailwindRepos = repos.filter(r => r.description?.toLowerCase().includes("tailwind") || r.topics?.includes("tailwind")).length || 4;
+  const reactRepos = repos.filter((r: GithubRepo) => r.language === "TypeScript" || r.language === "JavaScript" || r.description?.toLowerCase().includes("react")).length || 6;
+  const tailwindRepos = repos.filter((r: GithubRepo) => r.description?.toLowerCase().includes("tailwind") || r.topics?.includes("tailwind")).length || 4;
 
   // Backend dynamic metrics
-  const nodeRepos = repos.filter(r => r.language === "JavaScript" && r.description?.toLowerCase().includes("api")).length || 3;
-  const dbRepos = repos.filter(r => r.description?.toLowerCase().includes("mongo") || r.description?.toLowerCase().includes("database")).length || 3;
+  const nodeRepos = repos.filter((r: GithubRepo) => r.language === "JavaScript" && r.description?.toLowerCase().includes("api")).length || 3;
+  const dbRepos = repos.filter((r: GithubRepo) => r.description?.toLowerCase().includes("mongo") || r.description?.toLowerCase().includes("database")).length || 3;
 
   // LeetCode dynamic metrics
   const totalSolved = leetcodeData?.totalSolved || 320;
