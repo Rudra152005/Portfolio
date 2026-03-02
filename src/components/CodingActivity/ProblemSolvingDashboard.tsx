@@ -22,13 +22,14 @@ const ProblemSolvingDashboard = () => {
                 setLoading(true);
                 setError(null);
 
-                // Fetch LeetCode Data from Proxy
-                const leetcodeRes = await fetch(`http://localhost:3001/api/user-stats/${LEETCODE_USERNAME}`);
+                // Fetch LeetCode Data from Proxy or Production Backend
+                const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+                const leetcodeRes = await fetch(`${API_URL}/api/user-stats/${LEETCODE_USERNAME}`);
                 if (!leetcodeRes.ok) throw new Error("LeetCode proxy offline. Start server/index.js");
                 const lcData = await leetcodeRes.json();
 
-                // Fetch GitHub Data from Proxy
-                const githubRes = await fetch(`http://localhost:3001/api/github-stats/${GITHUB_USERNAME}`);
+                // Fetch GitHub Data from Proxy or Production Backend
+                const githubRes = await fetch(`${API_URL}/api/github-stats/${GITHUB_USERNAME}`);
                 let ghUser = null;
                 let ghRepos = [];
                 let ghSyncError = null;

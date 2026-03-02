@@ -45,7 +45,11 @@ const CodingActivity = () => {
                 setError(null);
 
                 // Fetch LeetCode Stats (using professional Node.js proxy)
-                const leetcodeRes = await fetch(`http://localhost:3001/api/user-stats/${LEETCODE_USERNAME}`);
+                const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+                const leetcodeRes = await fetch(`${API_URL}/api/user-stats/${LEETCODE_USERNAME}`);
+
+                // Fetch GitHub Stats
+                const githubRes = await fetch(`${API_URL}/api/github-stats/${GITHUB_USERNAME}`);
 
                 if (!leetcodeRes.ok) {
                     const errorData = await leetcodeRes.json().catch(() => ({ message: "Server error" }));
