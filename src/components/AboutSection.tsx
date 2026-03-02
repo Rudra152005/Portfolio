@@ -1,4 +1,5 @@
 import portrait from "@/assets/portrait.png";
+import myCv from "@/assets/Mycv1.pdf";
 import { Download } from "lucide-react";
 
 const AboutSection = () => {
@@ -42,10 +43,14 @@ const AboutSection = () => {
               impactful digital solutions.
             </p>
             <div className="flex justify-center lg:justify-start">
-              <button className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-6 py-3 text-sm font-medium text-foreground hover:bg-accent transition-all duration-300 hover:scale-105 min-h-[44px]">
+              <a
+                href={myCv}
+                download="Rudra_Tiwari_Resume.pdf"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-6 py-3 text-sm font-medium text-foreground hover:bg-accent transition-all duration-300 hover:scale-105 min-h-[44px]"
+              >
                 <Download className="w-4 h-4" />
                 Download Resume
-              </button>
+              </a>
             </div>
           </div>
 
