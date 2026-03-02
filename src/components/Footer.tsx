@@ -7,7 +7,7 @@ const Footer = () => {
           © 2026 Rudra. All rights reserved.
         </p>
         <div className="flex gap-6">
-          {["About", "Projects", "Articles", "Contact"].map((link) => (
+          {["About", "Projects", "Education", "Contact"].map((link) => (
             <a
               key={link}
               href={`#${link.toLowerCase()}`}
