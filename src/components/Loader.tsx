@@ -112,7 +112,7 @@ const Loader = ({ onComplete }: { onComplete: () => void }) => {
                                     transition={{
                                         duration: 1.5,
                                         delay: (i % 10) * 0.05 + Math.floor(i / 10) * 0.02,
-                                        ease: " easeOut "
+                                        ease: "easeOut"
                                     }}
                                     className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm"
                                     style={{
