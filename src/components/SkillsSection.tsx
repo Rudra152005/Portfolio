@@ -13,7 +13,6 @@ import {
   Layout,
   ChevronDown,
   GitBranch,
-  Terminal,
   Box,
   Triangle,
   Send,

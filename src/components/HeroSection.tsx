@@ -52,37 +52,33 @@ const HeroSection = () => {
           <div className="flex flex-col lg:flex-row items-center gap-12">
 
             {/* LEFT: Text content */}
-            <div className="flex-1 text-center lg:text-left space-y-6 section-fade">
-              <p className="text-base md:text-lg text-muted-foreground font-light italic tracking-wide">
-                Building Scalable Web Applications & Solving Real Problems
-              </p>
-
-              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold leading-[0.95] tracking-tight">
-                <span className="text-foreground">Building Real-World</span>
-                <br />
-                <span className="text-muted-foreground">Full Stack Systems</span>
+            <div className="flex-1 text-center lg:text-left flex flex-col justify-center section-fade">
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-2">
+                Hi, I'm Rudra
               </h1>
 
-              <p className="text-sm md:text-base text-muted-foreground max-w-md mx-auto lg:mx-0">
-                Passion &amp; Precision in{" "}
-                <span className="text-foreground font-medium">Design, Code &amp; Innovation.</span>
+              <h2 className="text-xl sm:text-2xl md:text-2xl text-gray-300 font-medium mb-6 mt-1">
+                Full Stack Developer
+              </h2>
+
+              <p className="text-sm md:text-base text-gray-400 max-w-md mx-auto lg:mx-0 mb-8">
+                Building modern web applications.
               </p>
 
               {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4 pb-12">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pb-12 mt-2">
                 <a
                   href="#projects"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-8 py-4 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-all duration-300 shadow-lg min-h-[48px]"
-                  style={{ boxShadow: '0 0 30px hsl(0 0% 100% / 0.1)' }}
+                  className="inline-flex items-center justify-center rounded-lg bg-white/5 border border-white/10 px-8 py-3 text-sm font-medium text-white hover:bg-white/10 transition-all duration-300"
                 >
-                  Explore My Work
-                  <ArrowRight className="w-4 h-4" />
+                  View Projects
                 </a>
                 <a
-                  href="#about"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-border/60 bg-secondary/30 backdrop-blur-sm px-8 py-4 text-sm font-medium text-foreground hover:bg-secondary/60 transition-all duration-300 min-h-[48px]"
+                  href="/resume.pdf"
+                  target="_blank"
+                  className="inline-flex items-center justify-center rounded-lg bg-transparent border border-white/10 px-8 py-3 text-sm font-medium text-white hover:bg-white/5 transition-all duration-300"
                 >
-                  About Me
+                  Download Resume
                 </a>
               </div>
             </div>
