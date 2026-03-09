@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -13,11 +15,10 @@ app.get('/', (req, res) => {
     res.json({ status: 'online', message: 'LeetCode Proxy is Running!' });
 });
 
+// LeetCode Stats Endpoint
 app.get('/api/user-stats/:username', async (req, res) => {
     const { username } = req.params;
     const graphqlUrl = 'https://leetcode.com/graphql';
-
-    // This is the query that is known to work reliably
     const query = `
     query userPublicProfile($username: String!) {
       matchedUser(username: $username) {
@@ -33,14 +34,13 @@ app.get('/api/user-stats/:username', async (req, res) => {
   `;
 
     try {
-        console.log(`[Proxy] Fetching LeetCode data for: ${username}`);
         const response = await axios.post(graphqlUrl, {
             query,
             variables: { username },
         }, {
             headers: {
                 'Content-Type': 'application/json',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'User-Agent': 'Mozilla/5.0',
                 'Referer': `https://leetcode.com/${username}/`
             }
         });
@@ -52,38 +52,25 @@ app.get('/api/user-stats/:username', async (req, res) => {
 
         const stats = data.matchedUser.submitStats.acSubmissionNum;
         const calendarJson = JSON.parse(data.matchedUser.submissionCalendar || '{}');
-
-        // Calculate Streak from Calendar
         const timestamps = Object.keys(calendarJson).map(t => parseInt(t)).sort((a, b) => b - a);
+
         let currentStreak = 0;
         let maxStreak = 0;
-        let tempStreak = 0;
+        const oneDay = 86400;
 
-        // Very basic streak calculation for the UI
         if (timestamps.length > 0) {
-            // Check if today/yesterday has activity
             const now = Math.floor(Date.now() / 1000);
-            const oneDay = 86400;
-            const lastActive = timestamps[0];
-
-            if (now - lastActive < oneDay * 2) {
+            if (now - timestamps[0] < oneDay * 2) {
                 currentStreak = 1;
-                // walk backwards to find consecutive days
                 for (let i = 1; i < timestamps.length; i++) {
-                    if (timestamps[i - 1] - timestamps[i] <= oneDay + 3600) { // +1hr buffer
-                        currentStreak++;
-                    } else {
-                        break;
-                    }
+                    if (timestamps[i - 1] - timestamps[i] <= oneDay + 3600) currentStreak++;
+                    else break;
                 }
             }
-
-            // max streak loop
             let currentTemp = 1;
             for (let i = 1; i < timestamps.length; i++) {
-                if (timestamps[i - 1] - timestamps[i] <= oneDay + 3600) {
-                    currentTemp++;
-                } else {
+                if (timestamps[i - 1] - timestamps[i] <= oneDay + 3600) currentTemp++;
+                else {
                     maxStreak = Math.max(maxStreak, currentTemp);
                     currentTemp = 1;
                 }
@@ -91,7 +78,7 @@ app.get('/api/user-stats/:username', async (req, res) => {
             maxStreak = Math.max(maxStreak, currentTemp);
         }
 
-        const result = {
+        res.json({
             status: 'success',
             totalSolved: stats.find(s => s.difficulty === 'All')?.count || 0,
             easySolved: stats.find(s => s.difficulty === 'Easy')?.count || 0,
@@ -100,66 +87,81 @@ app.get('/api/user-stats/:username', async (req, res) => {
             streak: currentStreak,
             maxStreak: maxStreak,
             submissionCalendar: calendarJson
-        };
-
-        console.log(`[Proxy] Success: ${username} solved ${result.totalSolved}. Streak: ${result.streak}`);
-        res.json(result);
+        });
     } catch (error) {
-        console.error('[Proxy Error]:', error.message);
         res.status(500).json({ status: 'error', message: error.message });
     }
 });
 
-require('dotenv').config();
-
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-
+// GitHub Stats Endpoint
 app.get('/api/github-stats/:username', async (req, res) => {
     const { username } = req.params;
+    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
-    // Configure headers for authentication if token is provided
-    const headers = {
-        'User-Agent': 'Portfolio-Proxy'
-    };
-
+    const headers = { 'User-Agent': 'Portfolio-Proxy' };
     if (GITHUB_TOKEN && GITHUB_TOKEN.startsWith('ghp_')) {
         headers['Authorization'] = `token ${GITHUB_TOKEN}`;
-        console.log(`[Proxy] Using GitHub Token for ${username}`);
     }
 
     try {
-        console.log(`[Proxy] Fetching GitHub data for: ${username}`);
-        const userRes = await axios.get(`https://api.github.com/users/${username}`, {
-            headers,
-            timeout: 10000
-        });
-
+        const userRes = await axios.get(`https://api.github.com/users/${username}`, { headers, timeout: 10000 });
         let repos = [];
         try {
-            const reposRes = await axios.get(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`, {
-                headers,
-                timeout: 10000
-            });
+            const reposRes = await axios.get(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`, { headers, timeout: 10000 });
             repos = reposRes.data;
-        } catch (e) {
-            console.warn(`[Proxy] GitHub Repos fetch failed (possibly rate limited or private): ${e.message}`);
-        }
+        } catch (e) { }
 
+        res.json({ status: 'success', user: userRes.data, repos });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+});
+
+// Contact Form Endpoint
+const EMAIL_USER = process.env.EMAIL_USER;
+const EMAIL_PASS = process.env.EMAIL_PASS;
+const RECEIVER_EMAIL = process.env.RECEIVER_EMAIL;
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: EMAIL_USER,
+        pass: EMAIL_PASS,
+    },
+});
+
+app.post('/api/contact', async (req, res) => {
+    const { name, email, message } = req.body;
+    const timestamp = new Date().toLocaleString();
+
+    if (!name || !email || !message) {
+        return res.status(400).json({ status: 'error', message: 'All fields are required' });
+    }
+
+    const mailOptions = {
+        from: `"${name}" <${EMAIL_USER}>`,
+        to: RECEIVER_EMAIL,
+        subject: `🚀 New Collaboration Inquiry: ${name}`,
+        text: `Name: ${name}\nEmail: ${email}\nTime: ${timestamp}\n\nMessage Payload:\n${message}`,
+        replyTo: email
+    };
+
+    try {
+        console.log(`[Contact] Processing transmission from: ${name} (${email}) at ${timestamp}`);
+        await transporter.sendMail(mailOptions);
         res.json({
             status: 'success',
-            user: userRes.data,
-            repos: repos
+            message: 'Thanks! Your message has been sent successfully.',
+            timestamp: timestamp,
+            whatsappMsg: encodeURIComponent(`Hi Rudhra, I just sent you a premium inquiry via your portfolio form at ${timestamp}. My email is ${email}. Let's discuss!`)
         });
     } catch (error) {
-        console.error('[Proxy GitHub Error]:', error.message);
-        const isRateLimit = error.response && error.response.status === 403;
-        res.status(isRateLimit ? 403 : 500).json({
-            status: 'error',
-            message: isRateLimit ? 'GitHub Rate Limit Exceeded' : 'Failed to fetch GitHub data',
-            details: error.response ? error.response.data : error.message
-        });
+        console.error('[Contact Error]:', error.message);
+        const errorMsg = error.code === 'EAUTH'
+            ? 'Email authentication failed. Ensure you are using a 16-character Gmail App Password.'
+            : 'Transmission failure.';
+        res.status(500).json({ status: 'error', message: errorMsg });
     }
 });
 
 app.listen(PORT, () => console.log(`Proxy running on http://localhost:${PORT}`));
-

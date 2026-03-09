@@ -25,7 +25,7 @@ const HeatmapGrid = ({ days }: HeatmapGridProps) => {
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: (i % 53) * 0.005 }}
                                 whileHover={{ scale: 1.3, zIndex: 50 }}
-                                className={`w-3 h-3 md:w-3.5 md:h-3.5 rounded-[3px] ${getIntensity(day.count)} transition-all duration-300 relative cursor-crosshair border border-white/[0.02] hover:border-white/20`}
+                                className={`w-3.5 h-3.5 rounded-[3px] ${getIntensity(day.count)} transition-all duration-300 relative cursor-crosshair border border-white/[0.02] hover:border-white/20`}
                             />
                         </TooltipTrigger>
                         <TooltipContent side="top" className="bg-black/90 border border-white/10 text-[10px] p-2.5 rounded-xl backdrop-blur-2xl shadow-2xl z-[100] animate-in fade-in zoom-in duration-200">

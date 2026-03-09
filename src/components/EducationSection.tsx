@@ -8,7 +8,7 @@ const educationData = [
         degree: "B.Tech in Computer Science",
         institution: "Lovely Professional University",
         duration: "2023 – 2024",
-        score: "CGPA: 7.0",
+        achievement: "Specialization in Full Stack Development",
         icon: GraduationCap,
         highlight: true,
         coursework: [
@@ -24,7 +24,7 @@ const educationData = [
         degree: "Senior Secondary (12th)",
         institution: "K.B Inter College",
         duration: "2020 – 2022",
-        score: "Percentage: 84%",
+        achievement: "Major: Science (PCM)",
         icon: Award,
         highlight: false,
     },
@@ -33,7 +33,7 @@ const educationData = [
         degree: "Secondary Education (10th)",
         institution: "K.B Inter College",
         duration: "2018 – 2020",
-        score: "Percentage: 78%",
+        achievement: "Focus: Science & Mathematics",
         icon: BookOpen,
         highlight: false,
     },
@@ -130,7 +130,7 @@ const EducationSection = () => {
                                             </div>
 
                                             <div className={`inline-block px-4 py-2 rounded-xl bg-white/5 border border-white/10 mb-6 ${item.highlight ? 'bg-primary/10 border-primary/20 text-primary-foreground font-semibold' : 'text-white/70'}`}>
-                                                {item.score}
+                                                {item.achievement}
                                             </div>
 
                                             {item.coursework && (

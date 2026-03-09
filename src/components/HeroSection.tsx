@@ -1,5 +1,6 @@
 import { ArrowRight, PenTool, Layers, Lightbulb } from "lucide-react";
 import heroScene from "@/assets/hero-scene.png";
+import HeroBackground from "./HeroBackground";
 
 const stats = [
   { icon: PenTool, value: "10+", label: "Projects Built" },
@@ -17,6 +18,10 @@ const HeroSection = () => {
           alt=""
           className="w-full h-full object-cover object-center"
         />
+
+        {/* Animated Background Layers */}
+        <HeroBackground />
+
         {/* Dark overlay — stronger on mobile for readability */}
         <div
           className="absolute inset-0"

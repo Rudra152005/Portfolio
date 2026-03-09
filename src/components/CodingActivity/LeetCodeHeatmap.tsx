@@ -25,24 +25,30 @@ const LeetCodeHeatmap = ({ calendar, streak, maxStreak }: LeetCodeHeatmapProps) 
     }, [calendar]);
 
     const days = useMemo(() => {
-        const isCurrentYear = currentYear === new Date().getFullYear();
-        const endDay = isCurrentYear ? new Date() : new Date(currentYear, 11, 31);
-
         const dateArray = [];
-        let current = new Date(Date.UTC(endDay.getFullYear(), endDay.getMonth(), endDay.getDate()));
 
-        // Align to end of week (Sat)
-        const endDayOfWeek = current.getUTCDay();
-        current.setUTCDate(current.getUTCDate() + (6 - endDayOfWeek));
+        // Start from Jan 1st of currentYear
+        const startDate = new Date(Date.UTC(currentYear, 0, 1));
+        // End at Dec 31st of currentYear
+        const endDate = new Date(Date.UTC(currentYear, 11, 31));
 
-        for (let i = 0; i < 371; i++) {
+        // Align to the start of the week (Sunday)
+        const startDayOfWeek = startDate.getUTCDay();
+        startDate.setUTCDate(startDate.getUTCDate() - startDayOfWeek);
+
+        // Align to the end of the week (Saturday)
+        const endDayOfWeek = endDate.getUTCDay();
+        endDate.setUTCDate(endDate.getUTCDate() + (6 - endDayOfWeek));
+
+        const current = new Date(startDate);
+        while (current <= endDate) {
             const d = new Date(current);
             const key = `${d.getUTCFullYear()}-${d.getUTCMonth()}-${d.getUTCDate()}`;
-            dateArray.unshift({
+            dateArray.push({
                 date: d,
                 count: activityMap.get(key) || 0
             });
-            current.setUTCDate(current.getUTCDate() - 1);
+            current.setUTCDate(current.getUTCDate() + 1);
         }
         return dateArray;
     }, [currentYear, activityMap]);
@@ -50,15 +56,26 @@ const LeetCodeHeatmap = ({ calendar, streak, maxStreak }: LeetCodeHeatmapProps) 
     const months = useMemo(() => {
         const labels: { name: string; weekIndex: number }[] = [];
         let lastMonth = -1;
+
+        // Only show months that actually start within this year's grid
         for (let i = 0; i < days.length; i += 7) {
-            const month = days[i].date.getUTCMonth();
+            const monthDate = days[i].date;
+            const month = monthDate.getUTCMonth();
+
+            // Check if this is the first week where this month appears
             if (month !== lastMonth) {
-                labels.push({ name: days[i].date.toLocaleString('default', { month: 'short', timeZone: 'UTC' }), weekIndex: i / 7 });
+                // To avoid duplicate labels or labels from previous year (if aligned to Sunday)
+                if (monthDate.getUTCFullYear() === currentYear) {
+                    labels.push({
+                        name: monthDate.toLocaleString('default', { month: 'short', timeZone: 'UTC' }),
+                        weekIndex: i / 7
+                    });
+                }
                 lastMonth = month;
             }
         }
         return labels;
-    }, [days]);
+    }, [days, currentYear]);
 
     return (
         <div className="w-full p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/10 relative overflow-hidden group backdrop-blur-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)]">
@@ -98,13 +115,12 @@ const LeetCodeHeatmap = ({ calendar, streak, maxStreak }: LeetCodeHeatmapProps) 
                             <SnakeAnimation days={days} />
                         </div>
 
-                        {/* Month Labels */}
-                        <div className="relative h-4 mt-4">
+                        <div className="relative h-6 mt-4">
                             {months.map((m, idx) => (
                                 <div
                                     key={idx}
-                                    className="absolute text-[8px] font-black text-muted-foreground/40 uppercase tracking-[0.2em] transition-colors group-hover:text-muted-foreground/60"
-                                    style={{ left: `${(m.weekIndex * 21.5)}px` }} // Aligned with the new STEP (18 + gaps)
+                                    className="absolute text-[9px] font-black text-white/30 uppercase tracking-[0.2em] transition-colors group-hover:text-white/60 whitespace-nowrap"
+                                    style={{ left: `${(m.weekIndex * 17.5)}px` }} // Aligned with the grid: 14px cell + 3.5px gap
                                 >
                                     {m.name}
                                 </div>

@@ -1,5 +1,6 @@
 import { ExternalLink, Globe, Github, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import CollaborationSection from "./CollaborationSection";
 
 const projects = [
   {
@@ -154,23 +155,10 @@ const ProjectsSection = () => {
           ))}
         </div>
 
-        {/* CTA */}
-        <div className="text-center mt-32 p-12 rounded-3xl bg-primary/5 border border-primary/10">
-          <h3 className="text-2xl font-bold mb-4">Interested in collaboration?</h3>
-          <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-            I'm always open to discussing new projects and creative opportunities.
-          </p>
-          <a
-            href="#contact"
-            className="inline-flex h-12 items-center justify-center rounded-full bg-foreground px-8 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
-          >
-            Let's Talk
-          </a>
-        </div>
+        <CollaborationSection />
       </div>
     </section>
   );
 };
 
 export default ProjectsSection;
-
