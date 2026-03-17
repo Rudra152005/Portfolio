@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Mail, Send, MapPin, ExternalLink, Code2, Cpu, Globe, Clock } from "lucide-react";
+import { Github, Linkedin, Mail, Send, MapPin, ExternalLink, Code2, Cpu, Globe, Clock, Terminal } from "lucide-react";
 
 const XIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} fill="currentColor">
@@ -99,7 +99,7 @@ const ContactSection = () => {
   }, []);
 
   return (
-    <section id="contact" className="relative py-24 bg-[#050505] overflow-hidden">
+    <section id="contact" className="relative py-24 bg-transparent overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px] animate-pulse" />
@@ -169,6 +169,26 @@ const ContactSection = () => {
             delay={0.6}
           />
         </div>
+
+        {/* Feature cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-20"
+        >
+          <div className="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/20 transition-all duration-500 hover:bg-white/[0.04]">
+            <Terminal className="w-8 h-8 text-primary mb-4" />
+            <h4 className="font-bold text-white text-lg">Technical Solutions</h4>
+            <p className="text-white/40 text-sm mt-1">Built with precision and modern best practices.</p>
+          </div>
+          <div className="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/20 transition-all duration-500 hover:bg-white/[0.04]">
+            <Globe className="w-8 h-8 text-blue-400 mb-4" />
+            <h4 className="font-bold text-white text-lg">Global Reach</h4>
+            <p className="text-white/40 text-sm mt-1">Scaling projects for users worldwide.</p>
+          </div>
+        </motion.div>
 
         {/* Footer info */}
         <motion.div

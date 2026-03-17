@@ -36,7 +36,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="about" className="relative py-24 md:py-32 lg:py-40 overflow-hidden bg-background">
+    <section id="about" className="relative py-24 md:py-32 lg:py-40 overflow-hidden">
       {/* Multi-layered Animated Background */}
       <AboutBackground />
 
@@ -129,22 +129,44 @@ const AboutSection = () => {
 
             {/* Action CTA */}
             <motion.div variants={itemVariants} className="flex justify-center lg:justify-start pt-10">
-              <motion.a
-                href={myCv}
-                download="Rudra_Tiwari_Resume.pdf"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative inline-flex items-center gap-4 rounded-full bg-white px-10 py-5 text-[11px] font-black text-black shadow-[0_0_30px_rgba(255,255,255,0.15)] hover:shadow-[0_0_50px_rgba(255,255,255,0.3)] transition-all duration-500 overflow-hidden uppercase tracking-[0.3em]"
-              >
-                {/* Button Shine Effect - More Dynamic */}
-                <div className="absolute inset-0 w-[400%] h-full bg-gradient-to-r from-transparent via-black/10 to-transparent -translate-x-full group-hover:animate-shine" />
+              <div className="neon-border-container group">
+                {/* Moving Neon Border - Toned down for elegance */}
+                <div className="neon-border-gradient opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
 
-                <Download className="w-5 h-5 group-hover:animate-bounce transition-transform" />
-                <span>Get Detailed Resume</span>
+                <motion.a
+                  href={myCv}
+                  download="Rudra_Tiwari_Resume.pdf"
+                  whileHover={{
+                    scale: 1.02,
+                    y: -4,
+                    boxShadow: "0 15px 35px -10px hsl(var(--glow-blue) / 0.3)",
+                    backgroundColor: "rgba(255, 255, 255, 0.05)"
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  className="relative inline-flex items-center gap-4 rounded-full bg-white/[0.02] border border-white/10 px-10 py-5 text-[11px] font-black text-white/70 hover:text-white transition-all duration-500 overflow-hidden uppercase tracking-[0.3em] backdrop-blur-xl shadow-2xl"
+                >
+                  {/* Shimmer Effect */}
+                  <div className="shimmer-overlay" />
 
-                {/* Subtle border overlay for extra crispness */}
-                <div className="absolute inset-0 border border-black/10 rounded-full" />
-              </motion.a>
+                  <motion.div
+                    variants={{
+                      hover: {
+                        y: [0, 4, 0],
+                        transition: { repeat: Infinity, duration: 1.5, ease: "easeInOut" }
+                      }
+                    }}
+                    whileHover="hover"
+                  >
+                    <Download className="w-5 h-5 text-primary group-hover:text-white transition-colors" />
+                  </motion.div>
+
+                  <span>Get Detailed Resume</span>
+
+                  {/* Inner shadow & Highlights for depth */}
+                  <div className="absolute inset-0 pointer-events-none shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)] rounded-full" />
+                  <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                </motion.a>
+              </div>
             </motion.div>
           </div>
 

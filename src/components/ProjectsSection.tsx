@@ -1,6 +1,5 @@
 import { ExternalLink, Globe, Github, Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import CollaborationSection from "./CollaborationSection";
 
 const projects = [
   {
@@ -68,7 +67,7 @@ const BrowserFrame = ({ url, name }: { url: string; name: string }) => {
 
 const ProjectsSection = () => {
   return (
-    <section id="projects" className="relative py-24 bg-background/50">
+    <section id="projects" className="relative py-24 bg-transparent border-t border-white/5">
       <div className="container mx-auto px-6">
         <div className="mb-20 text-center">
           <Badge variant="outline" className="mb-4 px-4 py-1 border-primary/20 bg-primary/5 text-primary">
@@ -155,7 +154,6 @@ const ProjectsSection = () => {
           ))}
         </div>
 
-        <CollaborationSection />
       </div>
     </section>
   );

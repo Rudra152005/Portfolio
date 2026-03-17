@@ -5,6 +5,7 @@ import SkillsSection from "@/components/SkillsSection";
 import ProblemSolvingDashboard from "@/components/CodingActivity/ProblemSolvingDashboard";
 import ProjectsSection from "@/components/ProjectsSection";
 import EducationSection from "@/components/EducationSection";
+import CertificatesSection from "@/components/CertificatesSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
@@ -34,6 +35,7 @@ const Index = () => {
         <ProblemSolvingDashboard />
         <ProjectsSection />
         <EducationSection />
+        <CertificatesSection />
         <ContactSection />
         <Footer />
       </motion.div>

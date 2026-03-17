@@ -137,7 +137,7 @@ const ProblemSolvingDashboard = () => {
     }
 
     return (
-        <section id="activity" className="relative py-32 overflow-hidden bg-background">
+        <section id="activity" className="relative py-32 overflow-hidden bg-transparent">
             {/* Background ambient glows */}
             <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/5 blur-[200px] rounded-full pointer-events-none -z-10" />
             <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-emerald-500/5 blur-[180px] rounded-full pointer-events-none -z-10" />

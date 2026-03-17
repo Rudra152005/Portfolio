@@ -41,7 +41,7 @@ const educationData = [
 
 const EducationSection = () => {
     return (
-        <section id="education" className="relative py-24 bg-[#050505] overflow-hidden">
+        <section id="education" className="relative py-24 bg-transparent overflow-hidden">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {/* Section Header */}

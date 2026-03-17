@@ -22,24 +22,24 @@ const HeroSection = () => {
         {/* Animated Background Layers */}
         <HeroBackground />
 
-        {/* Dark overlay — stronger on mobile for readability */}
+        {/* Dark overlay — smoother blending */}
         <div
           className="absolute inset-0"
           style={{
             background: `linear-gradient(
               to right,
-              hsl(220 20% 4% / 0.95) 0%,
-              hsl(220 20% 4% / 0.85) 40%,
-              hsl(220 20% 4% / 0.5) 70%,
-              hsl(220 20% 4% / 0.3) 100%
+              hsl(var(--background) / 0.95) 0%,
+              hsl(var(--background) / 0.85) 40%,
+              hsl(var(--background) / 0.5) 70%,
+              hsl(var(--background) / 0.3) 100%
             )`,
           }}
         />
-        {/* Bottom gradient for stats */}
+        {/* Bottom gradient — refined for seamless transition */}
         <div
           className="absolute bottom-0 left-0 right-0 h-48"
           style={{
-            background: `linear-gradient(to top, hsl(220 20% 4% / 0.95), transparent)`,
+            background: `linear-gradient(to top, hsl(var(--background)), transparent)`,
           }}
         />
         {/* Top glow — desktop only for performance */}
