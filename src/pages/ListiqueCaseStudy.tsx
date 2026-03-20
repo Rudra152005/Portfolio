@@ -29,14 +29,14 @@ const ListiqueCaseStudy = () => {
                         <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-8 bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
                             Listique
                         </h1>
-                        <h2 className="text-2xl md:text-3xl font-medium text-primary mb-6">
+                        <h2 className="text-2xl md:text-3xl font-medium text-emerald-500 mb-6 font-display uppercase tracking-widest">
                             Modern Wishlist & Item Tracking Platform
                         </h2>
                         <p className="text-xl text-muted-foreground leading-relaxed mb-10 max-w-2xl">
                             A dynamic platform designed for efficient wishlist management, allowing users to organize and track their desired items with a clean, minimal interface.
                         </p>
                         <div className="flex flex-wrap gap-4">
-                            <Button asChild size="lg" className="rounded-full px-8 bg-primary text-primary-foreground hover:scale-105 transition-all">
+                            <Button asChild size="lg" className="rounded-full px-8 bg-emerald-600 text-white hover:bg-emerald-700 hover:scale-105 transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)]">
                                 <a href="https://listique-eight.vercel.app/" target="_blank" rel="noopener noreferrer">
                                     <ExternalLink className="w-4 h-4 mr-2" />
                                     Live Site
@@ -115,8 +115,8 @@ const ListiqueCaseStudy = () => {
                             </div>
                         </div>
                         <div className="space-y-6">
-                            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                                <Database className="w-6 h-6 text-primary" />
+                            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                                <Database className="w-6 h-6 text-emerald-500" />
                             </div>
                             <h4 className="text-xl font-bold">Backend</h4>
                             <p className="text-muted-foreground text-sm">
@@ -178,8 +178,8 @@ const ListiqueCaseStudy = () => {
                             { title: "Minimal Asset Load", desc: "Serialized assets and optimized CSS for instantaneous page transitions." },
                             { title: "Direct Action Workflow", desc: "One-click actions for deleting or marking items, ensuring zero friction." }
                         ].map((feature) => (
-                            <div key={feature.title} className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] hover:border-primary/20 transition-all group">
-                                <CheckCircle2 className="w-6 h-6 text-primary mb-4 group-hover:scale-110 transition-transform" />
+                            <div key={feature.title} className="p-8 rounded-2xl border border-white/5 bg-white/[0.02] hover:border-emerald-500/20 transition-all group">
+                                <CheckCircle2 className="w-6 h-6 text-emerald-500 mb-4 group-hover:scale-110 transition-transform" />
                                 <h4 className="text-lg font-bold mb-2 text-white">{feature.title}</h4>
                                 <p className="text-sm text-muted-foreground leading-relaxed">{feature.desc}</p>
                             </div>
@@ -205,13 +205,13 @@ const ListiqueCaseStudy = () => {
                                 solution: "Utilized a specialized build process to ensure Tailwind utility classes were purged and optimized for the PHP-rendered templates, resulting in optimized page speeds."
                             }
                         ].map((item, i) => (
-                            <div key={i} className="p-8 rounded-2xl bg-white/[0.02] border border-white/5">
+                            <div key={i} className="p-8 rounded-2xl bg-white/[0.02] border border-white/5 group hover:border-emerald-500/30 transition-colors">
                                 <div className="flex items-center gap-2 mb-4">
-                                    <Badge variant="outline" className="text-xs uppercase border-primary/20 text-primary">Problem {i + 1}</Badge>
+                                    <Badge variant="outline" className="text-xs uppercase border-emerald-500/20 text-emerald-500">Problem {i + 1}</Badge>
                                 </div>
                                 <h4 className="text-xl font-bold mb-3 text-white">{item.challenge}</h4>
                                 <p className="text-muted-foreground leading-relaxed italic">
-                                    <span className="text-primary font-bold not-italic mr-2">Resolution:</span>
+                                    <span className="text-emerald-500 font-bold not-italic mr-2">Resolution:</span>
                                     {item.solution}
                                 </p>
                             </div>
@@ -240,10 +240,10 @@ const ListiqueCaseStudy = () => {
                         <h3 className="text-2xl font-bold mb-4 text-white">Ready to explore the platform?</h3>
                         <p className="text-muted-foreground mb-12">Experience the clean interface and dynamic functionality of Listique firsthand.</p>
                         <div className="flex justify-center gap-4">
-                            <Button asChild size="lg" className="rounded-full px-10 bg-primary text-primary-foreground">
+                            <Button asChild size="lg" className="rounded-full px-10 bg-emerald-600 text-white hover:bg-emerald-700">
                                 <a href="https://listique-eight.vercel.app/" target="_blank" rel="noopener noreferrer">Launch App</a>
                             </Button>
-                            <Button asChild variant="outline" size="lg" className="rounded-full px-10 border-white/10 text-white">
+                            <Button asChild variant="outline" size="lg" className="rounded-full px-10 border-white/10 text-white transition-colors hover:bg-white/5">
                                 <Link to="/">Back to Home</Link>
                             </Button>
                         </div>

@@ -1,7 +1,9 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const HeroBackground = () => {
+    const { scrollY } = useScroll();
+    const bgY = useTransform(scrollY, [0, 500], [0, 150]);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
     useEffect(() => {
@@ -19,7 +21,10 @@ const HeroBackground = () => {
     const rings = Array.from({ length: 3 });
 
     return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-[5]">
+        <motion.div
+            style={{ y: bgY }}
+            className="absolute inset-0 overflow-hidden pointer-events-none z-[5]"
+        >
             {/* Floating Particles Layer */}
             {particles.map((_, i) => (
                 <motion.div
@@ -78,7 +83,7 @@ const HeroBackground = () => {
                     >
                         {/* Orbiting Dot on Ring */}
                         <motion.div
-                            className="absolute top-0 left-1/2 w-2 h-2 bg-primary rounded-full blur-[2px] shadow-[0_0_10px_#10b981]"
+                            className="absolute top-0 left-1/2 w-2 h-2 bg-primary rounded-full blur-[2px] shadow-[0_0_10px_#6366f1]"
                             animate={{ opacity: [0.4, 1, 0.4] }}
                             transition={{ duration: 2, repeat: Infinity }}
                         />
@@ -135,9 +140,8 @@ const HeroBackground = () => {
                 </motion.div>
             </div>
 
-            {/* Subtle Gradient Fog */}
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
-        </div>
+        </motion.div>
     );
 };
 

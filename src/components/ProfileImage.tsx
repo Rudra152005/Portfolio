@@ -10,7 +10,7 @@ const ProfileImage = () => {
 
             {/* Main Image Container with Tilt & Floating */}
             <motion.div
-                className="relative rounded-[2rem] overflow-hidden border border-white/10 bg-[#0a0a0f] shadow-2xl transition-all duration-500 group-hover:border-primary/50 group-hover:shadow-[0_0_40px_rgba(16,185,129,0.2)]"
+                className="relative rounded-[2rem] overflow-hidden border border-white/10 bg-[#0a0a0f] shadow-2xl transition-all duration-500 group-hover:border-primary/50 group-hover:shadow-[0_0_40px_rgba(99,102,241,0.2)]"
                 animate={{ y: [0, -15, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 whileHover={{

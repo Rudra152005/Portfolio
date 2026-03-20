@@ -100,14 +100,14 @@ const certificates: Certificate[] = [
 
 // Map category to gradient colors matching the analytics dashboard palette
 const CATEGORY_GRADIENTS: Record<string, { gradient: string; shadow: string }> = {
-    "Programming":      { gradient: "from-amber-400 to-orange-500",  shadow: "shadow-orange-500/20" },
-    "Web Development":  { gradient: "from-blue-400 to-indigo-500",   shadow: "shadow-blue-500/20" },
-    "Cloud / DevOps":   { gradient: "from-teal-400 to-cyan-500",     shadow: "shadow-cyan-500/20" },
-    "Security":         { gradient: "from-rose-400 to-red-500",      shadow: "shadow-red-500/20" },
-    "AI / ML":          { gradient: "from-violet-400 to-purple-500", shadow: "shadow-purple-500/20" },
-    "Workshops":        { gradient: "from-emerald-400 to-green-500", shadow: "shadow-green-500/20" },
+    "Programming":      { gradient: "from-orange-400 to-orange-600",  shadow: "shadow-orange-500/20" },
+    "Web Development":  { gradient: "from-emerald-400 to-teal-600",   shadow: "shadow-emerald-500/20" },
+    "Cloud / DevOps":   { gradient: "from-purple-400 to-violet-600", shadow: "shadow-purple-500/20" },
+    "Security":         { gradient: "from-rose-400 to-red-600",      shadow: "shadow-red-500/20" },
+    "AI / ML":          { gradient: "from-blue-400 to-indigo-600",   shadow: "shadow-blue-500/20" },
+    "Workshops":        { gradient: "from-cyan-400 to-blue-600",     shadow: "shadow-cyan-500/20" },
 };
-const DEFAULT_GRADIENT = { gradient: "from-primary/60 to-primary", shadow: "shadow-primary/20" };
+const DEFAULT_GRADIENT = { gradient: "from-indigo-400 to-indigo-600", shadow: "shadow-indigo-500/20" };
 
 const CertificateCard = ({ certificate, index, onSelect }: { certificate: Certificate, index: number, onSelect: (cert: Certificate) => void }) => {
     const { gradient, shadow } = CATEGORY_GRADIENTS[certificate.category] ?? DEFAULT_GRADIENT;
@@ -218,23 +218,23 @@ const MetricCard = ({ value, label, prefix = "", suffix = "", icon: Icon }: { va
     return (
         <motion.div
              ref={ref}
-             initial={{ opacity: 0, y: 20 }}
-             whileInView={{ opacity: 1, y: 0 }}
+             initial={{ opacity: 0, scale: 0.95 }}
+             whileInView={{ opacity: 1, scale: 1 }}
              viewport={{ once: true }}
-             className="relative flex items-center gap-5 p-5 rounded-2xl bg-[#0a0a0f] border border-white/5 shadow-2xl transition-all duration-300 hover:border-primary/50 hover:bg-[#11111a] group overflow-hidden"
+             className="relative flex items-center gap-6 p-6 rounded-[2rem] bg-[#0a0a0f] border border-white/5 shadow-2xl transition-all duration-300 hover:border-indigo-500/30 hover:bg-[#11111a] group overflow-hidden"
         >
-            <div className="absolute right-0 top-0 w-24 h-24 bg-primary/5 rounded-bl-full group-hover:bg-primary/10 transition-colors pointer-events-none" />
+            <div className="absolute right-0 top-0 w-24 h-24 bg-indigo-500/5 rounded-bl-full group-hover:bg-indigo-500/10 transition-colors pointer-events-none" />
             
-            <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-500">
-                <Icon className="w-7 h-7" />
+            <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform duration-500">
+                <Icon className="w-6 h-6" />
             </div>
 
             <div className="flex flex-col z-10">
-                 <p className="text-xs text-white/50 font-bold uppercase tracking-wider mb-1">{label}</p>
-                 <div className="flex items-baseline gap-1 text-3xl font-black font-display text-white group-hover:text-primary transition-colors duration-300">
-                    {prefix && <span>{prefix}</span>}
+                 <p className="text-[10px] text-white/30 font-black uppercase tracking-[0.2em] mb-1">{label}</p>
+                 <div className="flex items-baseline gap-1 text-4xl font-black font-display text-white group-hover:text-indigo-400 transition-colors duration-300">
+                    {prefix && <span className="text-xl opacity-30">{prefix}</span>}
                     <span ref={displayText}>0</span>
-                    {suffix && <span>{suffix}</span>}
+                    {suffix && <span className="text-xl opacity-30">{suffix}</span>}
                 </div>
             </div>
         </motion.div>

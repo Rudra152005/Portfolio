@@ -56,7 +56,7 @@ const Loader = ({ onComplete }: { onComplete: () => void }) => {
                         <div className="flex gap-2 mb-4">
                             <div className="w-3 h-3 rounded-full bg-red-500/80" />
                             <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                            <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                            <div className="w-3 h-3 rounded-full bg-indigo-500/80" />
                         </div>
 
                         <div className="font-mono text-sm sm:text-base text-primary/80 space-y-2 min-h-[140px] flex flex-col justify-end">

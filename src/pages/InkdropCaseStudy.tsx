@@ -14,8 +14,8 @@ const InkdropCaseStudy = () => {
                         Back to Portfolio
                     </Link>
                     <div className="flex items-center gap-4">
-                        <Badge variant="outline" className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-3 py-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse" />
+                        <Badge variant="outline" className="bg-blue-500/10 text-blue-500 border-blue-500/20 px-3 py-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse" />
                             SaaS Platform
                         </Badge>
                     </div>
@@ -29,14 +29,14 @@ const InkdropCaseStudy = () => {
                         <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-8 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent">
                             Inkdrop
                         </h1>
-                        <h2 className="text-2xl md:text-3xl font-medium text-primary mb-6 font-display">
+                        <h2 className="text-2xl md:text-3xl font-medium text-blue-500 mb-6 font-display uppercase tracking-widest">
                             Full-Stack Digital Book Library & Management System
                         </h2>
                         <p className="text-xl text-muted-foreground leading-relaxed mb-10 max-w-2xl">
                             A high-performance SaaS platform built to streamline digital book distribution, featuring robust admin controls, secure user environments, and real-time management.
                         </p>
                         <div className="flex flex-wrap gap-4">
-                            <Button asChild size="lg" className="rounded-full px-8 bg-primary text-primary-foreground hover:scale-105 transition-all">
+                            <Button asChild size="lg" className="rounded-full px-8 bg-blue-600 text-white hover:bg-blue-700 hover:scale-105 transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)]">
                                 <a href="https://inkdrop-v2-0.onrender.com/" target="_blank" rel="noopener noreferrer">
                                     <ExternalLink className="w-4 h-4 mr-2" />
                                     Live Preview
@@ -96,7 +96,7 @@ const InkdropCaseStudy = () => {
                                         { title: "Automated Workflows", desc: "Request management system that handles book approvals with zero friction." }
                                     ].map((s) => (
                                         <div key={s.title} className="group">
-                                            <h4 className="text-primary font-bold mb-2 flex items-center gap-2">
+                                            <h4 className="text-blue-400 font-bold mb-2 flex items-center gap-2">
                                                 <CheckCircle2 className="w-4 h-4" />
                                                 {s.title}
                                             </h4>
@@ -130,15 +130,15 @@ const InkdropCaseStudy = () => {
                             <ul className="space-y-4">
                                 <li className="flex justify-between items-center text-sm">
                                     <span className="text-muted-foreground">Framework</span>
-                                    <span className="text-primary font-medium">React 18</span>
+                                    <span className="text-blue-400 font-medium">React 18</span>
                                 </li>
                                 <li className="flex justify-between items-center text-sm">
                                     <span className="text-muted-foreground">Styling</span>
-                                    <span className="text-primary font-medium">Tailwind CSS</span>
+                                    <span className="text-blue-400 font-medium">Tailwind CSS</span>
                                 </li>
                                 <li className="flex justify-between items-center text-sm">
                                     <span className="text-muted-foreground">State</span>
-                                    <span className="text-primary font-medium">Context API</span>
+                                    <span className="text-blue-400 font-medium">Context API</span>
                                 </li>
                             </ul>
                         </div>
@@ -194,8 +194,8 @@ const InkdropCaseStudy = () => {
                             { icon: Database, label: "MongoDB Atlas" }
                         ].map((node, i) => (
                             <div key={node.label} className="flex flex-col items-center gap-3 p-6 min-w-[160px]">
-                                <div className="w-16 h-16 rounded-3xl bg-white/[0.03] border border-white/5 flex items-center justify-center shadow-inner">
-                                    {node.icon && <node.icon className="w-8 h-8 text-primary" />}
+                                <div className="w-16 h-16 rounded-3xl bg-blue-500/5 border border-blue-500/10 flex items-center justify-center shadow-inner group-hover:bg-blue-500/10 transition-colors">
+                                    {node.icon && <node.icon className="w-8 h-8 text-blue-500" />}
                                 </div>
                                 <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground text-center">{node.label}</span>
                                 {i < 4 && (
@@ -214,8 +214,8 @@ const InkdropCaseStudy = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                             {/* User Side */}
                             <div className="space-y-6">
-                                <div className="flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-xs mb-8">
-                                    <div className="w-2 h-2 rounded-full bg-primary" />
+                                <div className="flex items-center gap-2 text-blue-400 font-bold uppercase tracking-widest text-xs mb-8">
+                                    <div className="w-2 h-2 rounded-full bg-blue-500" />
                                     User-Centric Features
                                 </div>
                                 <div className="grid gap-4">
@@ -227,7 +227,7 @@ const InkdropCaseStudy = () => {
                                         "Saved Personal Library"
                                     ].map((f) => (
                                         <div key={f} className="p-5 rounded-xl bg-white/[0.02] border border-white/5 flex items-center gap-4 group hover:bg-white/[0.04]">
-                                            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                                            <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400">
                                                 <Zap className="w-4 h-4" />
                                             </div>
                                             <span className="font-medium text-sm">{f}</span>
@@ -272,8 +272,8 @@ const InkdropCaseStudy = () => {
                                 { label: "Log Tracking", value: "Daily Audits", icon: Server },
                                 { label: "Automation", value: "Approval Flows", icon: Zap }
                             ].map((card) => (
-                                <div key={card.label} className="text-center p-8 rounded-2xl bg-black border border-white/10">
-                                    <card.icon className="w-8 h-8 text-primary mx-auto mb-4" />
+                                <div key={card.label} className="text-center p-8 rounded-2xl bg-black border border-white/10 group hover:border-blue-500/30 transition-colors">
+                                    <card.icon className="w-8 h-8 text-blue-500 mx-auto mb-4" />
                                     <p className="text-xs text-muted-foreground uppercase mb-2">{card.label}</p>
                                     <p className="text-lg font-bold">{card.value}</p>
                                 </div>
@@ -316,8 +316,8 @@ const InkdropCaseStudy = () => {
                                 desc: "Rendering hundreds of books initially slowed down the client. Implemented efficient pagination and memoization strategies to keep the UI smooth at 60fps."
                             }
                         ].map((c) => (
-                            <div key={c.title} className="p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/20 transition-colors">
-                                <Badge variant="secondary" className="mb-4 bg-primary/10 text-primary border-none font-bold text-[10px] uppercase tracking-tighter">
+                            <div key={c.title} className="p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-blue-500/20 transition-colors">
+                                <Badge variant="secondary" className="mb-4 bg-blue-500/10 text-blue-500 border-none font-bold text-[10px] uppercase tracking-tighter">
                                     {c.tag}
                                 </Badge>
                                 <h4 className="text-xl font-bold mb-3">{c.title}</h4>
@@ -333,7 +333,7 @@ const InkdropCaseStudy = () => {
                         <h3 className="text-4xl font-bold mb-8">Project Reflection</h3>
                         <div className="grid md:grid-cols-2 gap-12 text-left">
                             <div className="space-y-6">
-                                <h4 className="text-xl font-bold text-primary">Impact</h4>
+                                <h4 className="text-xl font-bold text-blue-500">Impact</h4>
                                 <p className="text-muted-foreground leading-relaxed">
                                     Inkdrop successfully demonstrates how digital libraries can be both secure and user-friendly. The resulting platform is a fully-scalable SaaS prototype that handles authentication, complex CRUD, and real-time state management with production-level reliability.
                                 </p>
@@ -353,16 +353,15 @@ const InkdropCaseStudy = () => {
                     <div className="flex flex-col items-center">
                         <h3 className="text-2xl font-bold mb-8">Experience the Live Platform</h3>
                         <div className="flex gap-4">
-                            <Button asChild size="lg" className="rounded-full px-12 bg-primary text-primary-foreground">
+                            <Button asChild size="lg" className="rounded-full px-12 bg-blue-600 text-white hover:bg-blue-700">
                                 <a href="https://inkdrop-v2-0.onrender.com/" target="_blank" rel="noopener noreferrer">Launch App</a>
                             </Button>
-                            <Button asChild variant="outline" size="lg" className="rounded-full px-12 border-white/10 text-white">
+                            <Button asChild variant="outline" size="lg" className="rounded-full px-12 border-white/10 text-white transition-colors hover:bg-white/5">
                                 <Link to="/">Back Home</Link>
                             </Button>
                             <Button asChild size="lg" className="rounded-full px-12 bg-white text-black hover:bg-white/90">
                                 <Link to="/#projects">Next Project</Link>
                             </Button>
-
                         </div>
                     </div>
                 </section>

@@ -14,8 +14,8 @@ const StartupLiftCaseStudy = () => {
                         Back to Portfolio
                     </Link>
                     <div className="flex items-center gap-4">
-                        <Badge variant="outline" className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 px-3 py-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse" />
+                        <Badge variant="outline" className="bg-orange-500/10 text-orange-500 border-orange-500/20 px-3 py-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mr-2 animate-pulse" />
                             Live Project
                         </Badge>
                     </div>
@@ -29,14 +29,14 @@ const StartupLiftCaseStudy = () => {
                         <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-8 bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
                             StartupLift
                         </h1>
-                        <h2 className="text-2xl md:text-3xl font-medium text-primary mb-6">
+                        <h2 className="text-2xl md:text-3xl font-medium text-orange-500 mb-6 font-display uppercase tracking-widest">
                             Full Stack Startup Growth Platform
                         </h2>
                         <p className="text-xl text-muted-foreground leading-relaxed mb-10 max-w-2xl">
                             A comprehensive platform designed to help founders validate, launch, and scale their startup ideas with data-driven insights and a streamlined workflow.
                         </p>
                         <div className="flex flex-wrap gap-4">
-                            <Button asChild size="lg" className="rounded-full px-8 bg-primary text-primary-foreground hover:scale-105 transition-all">
+                            <Button asChild size="lg" className="rounded-full px-8 bg-orange-500 text-white hover:bg-orange-600 hover:scale-105 transition-all">
                                 <a href="https://startup-lift.vercel.app/" target="_blank" rel="noopener noreferrer">
                                     <Rocket className="w-4 h-4 mr-2" />
                                     Live Site
@@ -93,7 +93,7 @@ const StartupLiftCaseStudy = () => {
                         <div className="pt-4 space-y-4">
                             {["Unified Dashboard", "Structured Growth Path", "Founder-Centric UX"].map((item) => (
                                 <div key={item} className="flex items-center gap-3 text-sm text-foreground/80">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/50" />
+                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-500/50" />
                                     {item}
                                 </div>
                             ))}
@@ -115,8 +115,8 @@ const StartupLiftCaseStudy = () => {
                         ].map((step, i, arr) => (
                             <>
                                 <div key={step.label} className="w-64 p-8 rounded-2xl bg-white/[0.03] border border-white/5 text-center group hover:bg-white/[0.05] transition-all">
-                                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                        <step.icon className="w-6 h-6 text-primary" />
+                                    <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                                        <step.icon className="w-6 h-6 text-orange-500" />
                                     </div>
                                     <p className="font-bold mb-1">{step.label}</p>
                                     <p className="text-xs text-muted-foreground">{step.tech}</p>
@@ -173,8 +173,8 @@ const StartupLiftCaseStudy = () => {
                             { icon: Globe, title: "SEO Optimized", desc: "Server-side rendering principles applied for maximum search visibility." },
                             { icon: Cpu, title: "Batch Processing", desc: "Automated tasks for data cleanup and report generation." },
                         ].map((f) => (
-                            <div key={f.title} className="group p-8 rounded-2xl border border-white/5 hover:border-primary/20 transition-all">
-                                <f.icon className="w-8 h-8 text-primary mb-6 transition-transform group-hover:scale-110" />
+                            <div key={f.title} className="group p-8 rounded-2xl border border-white/5 hover:border-orange-500/20 transition-all">
+                                <f.icon className="w-8 h-8 text-orange-500 mb-6 transition-transform group-hover:scale-110" />
                                 <h4 className="text-xl font-bold mb-3">{f.title}</h4>
                                 <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
                             </div>
@@ -200,11 +200,11 @@ const StartupLiftCaseStudy = () => {
                                 solution: "Optimized dashboard queries using Mongoose aggregation pipelines to compute complex growth metrics on the database level, significantly reducing API response times."
                             }
                         ].map((item, i) => (
-                            <div key={i} className="relative pl-8 border-l border-primary/20">
-                                <div className="absolute top-0 left-[-1px] w-[1px] h-full bg-gradient-to-b from-primary to-transparent" />
+                            <div key={i} className="relative pl-8 border-l border-orange-500/20">
+                                <div className="absolute top-0 left-[-1px] w-[1px] h-full bg-gradient-to-b from-orange-500 to-transparent" />
                                 <h4 className="text-xl font-bold mb-2">Challenge: {item.challenge}</h4>
                                 <p className="text-muted-foreground leading-relaxed">
-                                    <span className="text-primary/80 font-medium">Solution:</span> {item.solution}
+                                    <span className="text-orange-500/80 font-medium">Solution:</span> {item.solution}
                                 </p>
                             </div>
                         ))}
@@ -213,14 +213,14 @@ const StartupLiftCaseStudy = () => {
 
                 {/* Results */}
                 <section className="container mx-auto px-6 mb-32 text-center">
-                    <div className="max-w-3xl mx-auto p-12 rounded-[3rem] bg-emerald-500/5 border border-emerald-500/10">
+                    <div className="max-w-3xl mx-auto p-12 rounded-[3rem] bg-orange-500/5 border border-orange-500/10">
                         <h3 className="text-3xl font-bold mb-6">The Outcome</h3>
                         <p className="text-xl text-muted-foreground mb-8">
                             A production-ready platform that serves as a testament to clean architecture, secure practices, and professional full-stack integration.
                         </p>
                         <div className="flex flex-wrap justify-center gap-6">
                             {["100% Responsive", "Secure JWT Flow", "SEO Integrated", "CI/CD Pipeline"].map((tag) => (
-                                <Badge key={tag} variant="outline" className="text-emerald-400 border-emerald-400/20 bg-emerald-400/5">
+                                <Badge key={tag} variant="outline" className="text-orange-400 border-orange-400/20 bg-orange-400/5">
                                     {tag}
                                 </Badge>
                             ))}
@@ -251,7 +251,7 @@ const StartupLiftCaseStudy = () => {
                         <Button asChild variant="outline" className="rounded-full px-8">
                             <Link to="/">Exit Case Study</Link>
                         </Button>
-                        <Button asChild className="rounded-full px-8">
+                        <Button asChild className="rounded-full px-8 bg-orange-500 text-white hover:bg-orange-600">
                             <Link to="/#projects">Next Project</Link>
                         </Button>
                     </div>

@@ -9,11 +9,17 @@ import CertificatesSection from "@/components/CertificatesSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import ScrollingProfileImage from "@/components/ScrollingProfileImage";
+import { useState, useRef } from "react";
+import { motion, useScroll } from "framer-motion";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
 
   return (
     <>
@@ -26,11 +32,14 @@ const Index = () => {
           scale: isLoading ? 1.05 : 1
         }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="min-h-screen bg-background overflow-hidden"
+        className="min-h-screen bg-background overflow-clip"
       >
         <Navbar />
-        <HeroSection />
-        <AboutSection />
+        <div ref={containerRef} className="relative w-full">
+          {!isLoading && <ScrollingProfileImage progress={scrollYProgress} />}
+          <HeroSection />
+          <AboutSection />
+        </div>
         <SkillsSection />
         <ProblemSolvingDashboard />
         <ProjectsSection />

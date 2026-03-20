@@ -1,242 +1,360 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Mail, Send, MapPin, ExternalLink, Code2, Cpu, Globe, Clock, Terminal } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { Github, Linkedin, Mail, Send, MapPin, ExternalLink, Clock, MessageSquare, User, AtSign, CheckCircle2 } from "lucide-react";
 
-const XIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.008 3.974H5.078z" />
-  </svg>
-);
+// --- Types & Constants ---
+const CONTACT_INFO = [
+  {
+    id: "email",
+    icon: Mail,
+    label: "Email",
+    value: "rudra152005@gmail.com",
+    href: "mailto:rudra152005@gmail.com",
+    color: "from-blue-500/20 to-indigo-500/20",
+    accent: "text-blue-400"
+  },
+  {
+    id: "linkedin",
+    icon: Linkedin,
+    label: "LinkedIn",
+    value: "linkedin.com/in/rudra-tiwari05",
+    href: "https://www.linkedin.com/in/rudra-tiwari05/",
+    color: "from-blue-600/20 to-blue-400/20",
+    accent: "text-blue-500"
+  },
+  {
+    id: "github",
+    icon: Github,
+    label: "GitHub",
+    value: "github.com/Rudra152005",
+    href: "https://github.com/Rudra152005",
+    color: "from-gray-600/20 to-gray-400/20",
+    accent: "text-gray-300"
+  },
+  {
+    id: "twitter",
+    icon: (props: any) => (
+      <svg viewBox="0 0 24 24" {...props} fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.008 3.974H5.078z" />
+      </svg>
+    ),
+    label: "X (Twitter)",
+    value: "@tiwar95562",
+    href: "https://x.com/tiwar95562",
+    color: "from-blue-400/20 to-blue-300/20",
+    accent: "text-blue-300"
+  }
+];
 
-const TypingHeading = ({ text }: { text: string }) => {
-  const [displayText, setDisplayText] = useState("");
-  const [index, setIndex] = useState(0);
+const MESSAGES = [
+  "I have a project idea...",
+  "Let's collaborate on...",
+  "I'd like to hire you for...",
+  "Just wanted to say hi!",
+  "Are you available for..."
+];
 
-  useEffect(() => {
-    if (index < text.length) {
-      const timer = setTimeout(() => {
-        setDisplayText((prev) => prev + text[index]);
-        setIndex((prev) => prev + 1);
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [index, text]);
+// --- Components ---
 
-  return (
-    <h2 className="font-display text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight min-h-[1.2em]">
-      {displayText}
-      <motion.span
-        animate={{ opacity: [0, 1, 0] }}
-        transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
-        className="inline-block w-1 h-12 md:h-16 bg-primary ml-1 align-middle"
-      />
-    </h2>
-  );
-};
-
-const FloatingIcon = ({ Icon, delay, x, y }: { Icon: any; delay: number; x: string; y: string }) => (
+const StatusBadge = () => (
   <motion.div
-    initial={{ opacity: 0, scale: 0 }}
-    animate={{
-      opacity: [0.1, 0.3, 0.1],
-      scale: [1, 1.1, 1],
-      x: [0, 10, -10, 0],
-      y: [0, -15, 15, 0]
-    }}
-    transition={{
-      duration: 10,
-      repeat: Infinity,
-      delay,
-      ease: "easeInOut"
-    }}
-    className="absolute text-primary/20 pointer-events-none"
-    style={{ left: x, top: y }}
+    initial={{ opacity: 0, scale: 0.9 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: true }}
+    className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-500/5 border border-emerald-500/20 backdrop-blur-md mb-6"
   >
-    <Icon size={48} />
+    <div className="relative flex h-2 w-2">
+      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+    </div>
+    <span className="text-[10px] font-bold text-emerald-400/80 uppercase tracking-widest">Available for new opportunities</span>
   </motion.div>
 );
 
-const ContactCard = ({ icon: Icon, title, value, href, delay }: { icon: any; title: string; value: string; href: string; delay: number }) => (
+const ContactCard = ({ info, index }: { info: typeof CONTACT_INFO[0]; index: number }) => (
   <motion.a
-    href={href}
+    href={info.href}
     target="_blank"
     rel="noopener noreferrer"
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
+    initial={{ opacity: 0, x: -30 }}
+    whileInView={{ opacity: 1, x: 0 }}
     viewport={{ once: true }}
-    transition={{ duration: 0.5, delay }}
-    whileHover={{ y: -5, scale: 1.02 }}
-    className="group relative p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-primary/50 transition-all duration-500 overflow-hidden flex flex-col items-center text-center"
+    transition={{ delay: index * 0.1, duration: 0.5 }}
+    whileHover={{ y: -5, x: 5 }}
+    className="group relative flex items-center gap-5 p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all duration-300 overflow-hidden"
   >
-    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    <div className="relative z-10 w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-500">
-      <Icon className="w-8 h-8 text-primary group-hover:scale-110 transition-transform duration-500" />
+    <div className={`absolute inset-0 bg-gradient-to-br ${info.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+    
+    <div className="relative z-10 w-12 h-12 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+      <info.icon className={`w-5 h-5 ${info.accent}`} />
     </div>
-    <h3 className="relative z-10 text-white/50 text-sm font-medium uppercase tracking-widest mb-2">{title}</h3>
-    <p className="relative z-10 text-white font-display text-lg group-hover:text-primary transition-colors duration-300">{value}</p>
-    <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-      <ExternalLink size={16} className="text-primary" />
+
+    <div className="relative z-10 flex-1">
+      <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-0.5">{info.label}</p>
+      <p className="text-sm font-medium text-white/70 group-hover:text-white transition-colors lowercase">{info.value}</p>
+    </div>
+
+    <div className="relative z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+      <ExternalLink className="w-4 h-4 text-white/40" />
     </div>
   </motion.a>
 );
 
-const ContactSection = () => {
-  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true
-  }));
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date().toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      }));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+const FormInput = ({ label, id, type = "text", icon: Icon, value, onChange, placeholder }: any) => {
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <section id="contact" className="relative py-24 bg-transparent overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-[120px] animate-pulse" />
-
-        <FloatingIcon Icon={Code2} delay={0} x="10%" y="20%" />
-        <FloatingIcon Icon={Cpu} delay={2} x="85%" y="15%" />
-        <FloatingIcon Icon={Globe} delay={4} x="15%" y="70%" />
-        <FloatingIcon Icon={Send} delay={1} x="80%" y="75%" />
+    <div className="relative group">
+      <label 
+        htmlFor={id}
+        className={`absolute left-12 transition-all duration-300 pointer-events-none z-10 
+          ${isFocused || value ? "-top-2.5 text-[10px] font-bold text-indigo-400 bg-[#050505] px-2" : "top-4 text-sm text-white/30"}`}
+      >
+        {label}
+      </label>
+      
+      <div className={`relative flex items-center rounded-xl bg-white/[0.02] border transition-all duration-300 overflow-hidden
+        ${isFocused ? "border-indigo-500/50 bg-white/[0.04] shadow-[0_0_20px_rgba(99,102,241,0.1)]" : "border-white/5"}`}
+      >
+        <div className={`flex items-center justify-center px-4 transition-colors duration-300 ${isFocused ? "text-indigo-400" : "text-white/20"}`}>
+          <Icon className="w-5 h-5" />
+        </div>
+        
+        {type === "textarea" ? (
+          <textarea
+            id={id}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            placeholder={placeholder}
+            rows={4}
+            className="w-full bg-transparent border-none py-4 pr-4 text-sm text-white placeholder-white/5 outline-none resize-none min-h-[120px]"
+          />
+        ) : (
+          <input
+            id={id}
+            type={type}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            placeholder={isFocused ? "" : placeholder}
+            className="w-full bg-transparent border-none py-4 pr-4 text-sm text-white placeholder-white/5 outline-none"
+          />
+        )}
       </div>
+    </div>
+  );
+};
+
+const ConnectionLines = () => (
+  <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 pointer-events-none overflow-hidden z-0 hidden lg:block opacity-10">
+    <svg width="100%" height="400" viewBox="0 0 1000 400" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <motion.path
+        d="M0 100 C 300 100 700 300 1000 300"
+        stroke="url(#gradient-line)"
+        strokeWidth="1"
+        strokeDasharray="8 12"
+        animate={{ strokeDashoffset: [0, -40] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+      />
+      <motion.path
+        d="M0 300 C 300 300 700 100 1000 100"
+        stroke="url(#gradient-line)"
+        strokeWidth="1"
+        strokeDasharray="8 12"
+        animate={{ strokeDashoffset: [0, 40] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+      />
+      <defs>
+        <linearGradient id="gradient-line" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="transparent" />
+          <stop offset="50%" stopColor="rgba(99,102,241,0.5)" />
+          <stop offset="100%" stopColor="transparent" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+);
+
+const ContactSection = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+  
+  // Typing animation for message placeholder
+  const [placeholder, setPlaceholder] = useState("");
+  const [msgIdx, setMsgIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+
+  useEffect(() => {
+    const currentMsg = MESSAGES[msgIdx];
+    if (charIdx < currentMsg.length) {
+      const timeout = setTimeout(() => {
+        setPlaceholder(prev => prev + currentMsg[charIdx]);
+        setCharIdx(prev => prev + 1);
+      }, 100);
+      return () => clearTimeout(timeout);
+    } else {
+      const timeout = setTimeout(() => {
+        setPlaceholder("");
+        setCharIdx(0);
+        setMsgIdx((prev) => (prev + 1) % MESSAGES.length);
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [charIdx, msgIdx]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsDone(true);
+      setTimeout(() => setIsDone(false), 5000);
+      setName("");
+      setEmail("");
+      setMessage("");
+    }, 2000);
+  };
+
+  return (
+    <section id="contact" className="relative py-32 bg-background overflow-hidden">
+      <ConnectionLines />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center mb-20 section-fade">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-emerald-500/5 border border-emerald-500/20 backdrop-blur-md mb-8 group/status"
-          >
-            <div className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 shadow-[0_0_10px_hsl(var(--primary))]"></span>
-            </div>
-            <div className="flex items-center gap-2 border-l border-emerald-500/20 pl-3">
-              <span className="text-emerald-400 text-[10px] font-black uppercase tracking-widest">Available for work</span>
-              <div className="w-1 h-1 rounded-full bg-emerald-500/30" />
-              <span className="text-white/40 text-[10px] font-medium font-mono uppercase tracking-tighter flex items-center gap-1 group-hover/status:text-emerald-400 transition-colors">
-                <Clock className="w-3 h-3" /> {currentTime}
-              </span>
-            </div>
-          </motion.div>
+        <div className="max-w-5xl mx-auto">
+          
+          <div className="grid lg:grid-cols-12 gap-16 items-center">
+            
+            {/* LEFT SIDE: Info & Cards */}
+            <div className="lg:col-span-5 space-y-12">
+              <div className="space-y-6">
+                <StatusBadge />
+                
+                <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1]">
+                  Get In <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-indigo-300 to-indigo-500">Touch</span>
+                </h2>
+                
+                <p className="text-white/50 text-base md:text-lg max-w-md leading-relaxed">
+                  Open to opportunities, collaborations, and meaningful conversations about the future of tech.
+                </p>
 
-          <TypingHeading text="Get In Touch" />
+                <div className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-[0.3em]">
+                  <Clock className="w-3.5 h-3.5" />
+                  Usually responds within 24 hours
+                </div>
+              </div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 1.5 }}
-            className="text-muted-foreground max-w-xl mx-auto text-lg leading-relaxed mt-6"
-          >
-            I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.
-          </motion.p>
+              <div className="space-y-4">
+                {CONTACT_INFO.map((info, i) => (
+                  <ContactCard key={info.id} info={info} index={i} />
+                ))}
+              </div>
+
+              {/* Extra Location item */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-white/[0.01] border border-white/5 w-fit"
+              >
+                <div className="w-10 h-10 rounded-xl bg-indigo-500/5 border border-indigo-500/10 flex items-center justify-center">
+                  <MapPin className="w-5 h-5 text-indigo-400" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-white/20 uppercase tracking-widest">Location</p>
+                  <p className="text-sm font-bold text-white/60">Kanpur, India</p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* RIGHT SIDE: Interactive Form */}
+            <div className="lg:col-span-7">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98, y: 20 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="relative p-8 md:p-12 rounded-[2.5rem] bg-white/[0.02] border border-white/10 overflow-hidden"
+              >
+                {/* Visual texture */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/5 blur-[100px] pointer-events-none" />
+                
+                <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <FormInput 
+                      id="name" 
+                      label="Your Name" 
+                      icon={User} 
+                      value={name} 
+                      onChange={setName} 
+                      placeholder="e.g. John Doe" 
+                    />
+                    <FormInput 
+                      id="email" 
+                      label="Email Address" 
+                      type="email" 
+                      icon={AtSign} 
+                      value={email} 
+                      onChange={setEmail} 
+                      placeholder="e.g. john@example.com" 
+                    />
+                  </div>
+
+                  <FormInput 
+                    id="message" 
+                    label="How can I help?" 
+                    type="textarea" 
+                    icon={MessageSquare} 
+                    value={message} 
+                    onChange={setMessage} 
+                    placeholder={placeholder} 
+                  />
+
+                  <div className="flex items-center justify-between gap-6 pt-4">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || isDone}
+                      className="group relative flex-1 sm:flex-none"
+                    >
+                      <div className="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-400 rounded-full blur-md opacity-40 group-hover:opacity-100 transition duration-500 pointer-events-none"></div>
+                      
+                      <div className={`relative flex items-center justify-center gap-3 px-10 py-4 rounded-full font-bold text-sm uppercase tracking-widest transition-all duration-300 min-w-[200px]
+                        ${isDone ? "bg-emerald-500 text-white" : "bg-[#050505] text-white group-hover:bg-white/5 border border-white/10 group-hover:border-white/20"}`}
+                      >
+                        {isSubmitting ? (
+                          <div className="flex items-center gap-3">
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            <span>Processing...</span>
+                          </div>
+                        ) : isDone ? (
+                          <div className="flex items-center gap-3">
+                            <CheckCircle2 className="w-5 h-5" />
+                            <span>Sent Successfully</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-3">
+                            <span>Send Message</span>
+                            <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                          </div>
+                        )}
+                      </div>
+                    </button>
+                    
+                    <p className="hidden md:block text-[10px] text-white/20 font-medium max-w-[140px] leading-relaxed uppercase tracking-widest">
+                      Your data is safe and never shared.
+                    </p>
+                  </div>
+                </form>
+              </motion.div>
+            </div>
+
+          </div>
         </div>
-
-        {/* Contact cards grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-20 max-w-5xl mx-auto">
-          <ContactCard
-            icon={Mail}
-            title="Email Me"
-            value="rudra152005@gmail.com"
-            href="mailto:rudra152005@gmail.com"
-            delay={0.2}
-          />
-          <ContactCard
-            icon={Linkedin}
-            title="LinkedIn"
-            value="Rudhra Tiwari"
-            href="https://www.linkedin.com/in/rudra-tiwari05/"
-            delay={0.4}
-          />
-          <ContactCard
-            icon={Github}
-            title="GitHub"
-            value="@Rudra152005"
-            href="https://github.com/Rudra152005"
-            delay={0.6}
-          />
-        </div>
-
-        {/* Feature cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-20"
-        >
-          <div className="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/20 transition-all duration-500 hover:bg-white/[0.04]">
-            <Terminal className="w-8 h-8 text-primary mb-4" />
-            <h4 className="font-bold text-white text-lg">Technical Solutions</h4>
-            <p className="text-white/40 text-sm mt-1">Built with precision and modern best practices.</p>
-          </div>
-          <div className="group p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-primary/20 transition-all duration-500 hover:bg-white/[0.04]">
-            <Globe className="w-8 h-8 text-blue-400 mb-4" />
-            <h4 className="font-bold text-white text-lg">Global Reach</h4>
-            <p className="text-white/40 text-sm mt-1">Scaling projects for users worldwide.</p>
-          </div>
-        </motion.div>
-
-        {/* Footer info */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 1 }}
-          className="text-center space-y-8"
-        >
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/[0.03] border border-white/5 text-muted-foreground group hover:border-white/20 transition-all duration-300">
-              <MapPin className="w-5 h-5 group-hover:text-primary transition-colors" />
-              <span className="text-lg">Kanpur, India</span>
-            </div>
-
-            <div className="flex gap-6">
-              {[
-                { Icon: XIcon, href: "https://x.com/tiwar95562" },
-                { Icon: Github, href: "https://github.com/Rudra152005" },
-                { Icon: Linkedin, href: "https://www.linkedin.com/in/rudra-tiwari05/" }
-              ].map(({ Icon, href }, i) => (
-                <motion.a
-                  key={i}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.2, rotate: 5 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="w-12 h-12 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-300 shadow-lg hover:shadow-primary/20"
-                >
-                  <Icon className="w-5 h-5" />
-                </motion.a>
-              ))}
-            </div>
-          </div>
-
-          <motion.a
-            href="mailto:rudra152005@gmail.com"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative inline-flex group"
-          >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-blue-600 rounded-full blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-            <span className="relative inline-flex items-center gap-2 rounded-full bg-[#0a0a0f] px-10 py-4 text-sm font-bold text-white transition-all duration-300">
-              Send a Message <Send size={16} />
-            </span>
-          </motion.a>
-        </motion.div>
       </div>
     </section>
   );
