@@ -45,7 +45,7 @@ const colorMap: Record<string, { main: string; glow: string; bg: string; border:
 const BrowserFrame = ({ url, name, accent }: { url: string; name: string; accent: string }) => {
   const colors = colorMap[accent] || colorMap.blue;
   const [isLoading, setIsLoading] = useState(true);
-  
+
   return (
     <div className={`group relative w-full h-[400px] rounded-xl overflow-hidden bg-[#050505] border border-white/5 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:${colors.glow}`}>
       {/* macOS style title bar */}
@@ -66,17 +66,17 @@ const BrowserFrame = ({ url, name, accent }: { url: string; name: string; accent
       {/* Iframe content */}
       <div className="relative w-full h-full overflow-hidden bg-[#050505]">
         <AnimatePresence>
-            {isLoading && (
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-[#0a0a0f]"
-                >
-                    <Loader2 className={`w-8 h-8 ${colors.main} animate-spin`} />
-                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em]">Initializing Preview...</p>
-                </motion.div>
-            )}
+          {isLoading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-[#0a0a0f]"
+            >
+              <Loader2 className={`w-8 h-8 ${colors.main} animate-spin`} />
+              <p className="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em]">Initializing Preview...</p>
+            </motion.div>
+          )}
         </AnimatePresence>
 
         <iframe
@@ -106,7 +106,7 @@ const ProjectsSection = () => {
             <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
             <span className="text-[10px] font-black text-white/50 uppercase tracking-[0.3em]">Featured Works</span>
           </div>
-          
+
           <h2 className="font-display text-4xl md:text-5xl lg:text-7xl font-black text-white mb-6 tracking-tighter">
             Digital <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-indigo-300 to-indigo-500">Masterpieces</span>
           </h2>
@@ -118,7 +118,7 @@ const ProjectsSection = () => {
         <div className="space-y-40">
           {projects.map((project, i) => {
             const colors = colorMap[project.accent] || colorMap.blue;
-            
+
             return (
               <div
                 key={project.name}
@@ -171,7 +171,7 @@ const ProjectsSection = () => {
                         Live Site
                       </span>
                     </a>
-                    
+
                     <a
                       href={project.caseStudy}
                       className="inline-flex items-center gap-3 px-6 py-4 rounded-full bg-white/[0.03] border border-white/5 text-[10px] font-black text-white/40 hover:text-white uppercase tracking-[0.2em] transition-all duration-300"
@@ -179,7 +179,7 @@ const ProjectsSection = () => {
                       <Info className="w-4 h-4" />
                       Detail View
                     </a>
-                    
+
                     {project.github && (
                       <a
                         href={project.github}

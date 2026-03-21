@@ -19,7 +19,7 @@ const HeroBackground = memo(() => (
       loading="eager"
       className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none"
     />
-    
+
     {/* Subtle ambient glows */}
     <div className="absolute top-[0%] left-[0%] w-[40%] h-[40%] bg-blue-500/5 blur-[100px] rounded-full" />
     <div className="absolute bottom-[0%] right-[0%] w-[40%] h-[40%] bg-indigo-500/5 blur-[100px] rounded-full" />
@@ -54,7 +54,7 @@ const HeroSection = memo(() => {
   return (
     <section id="home" className="relative h-screen flex flex-col justify-center overflow-hidden bg-background">
       <HeroBackground />
- 
+
       {/* ── Main content ── */}
       <div className="relative z-20 w-full pt-20">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 w-full">
@@ -111,7 +111,7 @@ const HeroSection = memo(() => {
               {/* MOBILE ONLY: Static fallback */}
               <div className="lg:hidden relative">
                 <div className="w-[240px] h-[240px] md:w-[320px] md:h-[320px] rounded-full overflow-hidden border border-white/10">
-                   <img src={portrait} alt="Rudra" className="w-full h-full object-cover object-top" />
+                  <img src={portrait} alt="Rudra" className="w-full h-full object-cover object-top" />
                 </div>
               </div>
 
@@ -129,13 +129,13 @@ const HeroSection = memo(() => {
           <div className="flex flex-wrap justify-between items-center gap-8">
             {stats.map((stat, i) => (
               <div key={i} className="flex items-center gap-4">
-                 <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-center">
-                    <stat.icon className="w-5 h-5 text-indigo-400" />
-                 </div>
-                 <div>
-                    <div className="text-xl font-bold text-white leading-none mb-1">{stat.value}</div>
-                    <div className="text-[10px] text-white/40 uppercase tracking-widest font-black">{stat.label}</div>
-                 </div>
+                <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-center">
+                  <stat.icon className="w-5 h-5 text-indigo-400" />
+                </div>
+                <div>
+                  <div className="text-xl font-bold text-white leading-none mb-1">{stat.value}</div>
+                  <div className="text-[10px] text-white/40 uppercase tracking-widest font-black">{stat.label}</div>
+                </div>
               </div>
             ))}
           </div>

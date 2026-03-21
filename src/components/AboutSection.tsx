@@ -42,7 +42,7 @@ const AboutSection = forwardRef<HTMLDivElement>((props, ref) => {
       className="relative h-screen flex flex-col justify-center overflow-hidden"
     >
       <AboutBackground />
- 
+
       {/* ── Main content ── */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pt-20">
         <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -76,10 +76,10 @@ const AboutSection = forwardRef<HTMLDivElement>((props, ref) => {
             </motion.div>
 
             {/* DESKTOP ONLY: Invisible Spacer for scrolling 3D Image */}
-            <motion.div 
-               style={{ y: useTransform(scrollYProgress, [0, 1], [0, -30]) }}
-               id="about-profile-spacer" 
-               className="hidden lg:block w-[380px] h-[380px] rounded-full shrink-0" 
+            <motion.div
+              style={{ y: useTransform(scrollYProgress, [0, 1], [0, -30]) }}
+              id="about-profile-spacer"
+              className="hidden lg:block w-[380px] h-[380px] rounded-full shrink-0"
             />
           </div>
 
