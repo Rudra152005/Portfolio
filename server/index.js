@@ -28,7 +28,10 @@ app.get('/api/user-stats/:username', async (req, res) => {
             count
           }
         }
-        submissionCalendar
+        userCalendar {
+          streak
+          submissionCalendar
+        }
       }
     }
   `;
@@ -51,41 +54,20 @@ app.get('/api/user-stats/:username', async (req, res) => {
         }
 
         const stats = data.matchedUser.submitStats.acSubmissionNum;
-        const calendarJson = JSON.parse(data.matchedUser.submissionCalendar || '{}');
+        const calendar = data.matchedUser.userCalendar;
+        const calendarJson = JSON.parse(calendar.submissionCalendar || '{}');
+        
+        // Calculate Max Streak from the calendar data
         const timestamps = Object.keys(calendarJson).map(t => parseInt(t)).sort((a, b) => b - a);
-
-        let currentStreak = 0;
-        let maxStreak = 0;
-
+        let calculatedMaxStreak = 0;
         if (timestamps.length > 0) {
-            // Convert timestamps to IST (UTC+5:30) before extracting date
-            // This prevents submissions at night IST from being counted as the previous UTC day
-            const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000; // 5 hours 30 minutes in ms
+            const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
             const toISTDateStr = (unixSec) => {
                 const ms = unixSec * 1000 + IST_OFFSET_MS;
                 return new Date(ms).toISOString().split('T')[0];
             };
-
             const uniqueDays = [...new Set(timestamps.map(toISTDateStr))];
-            uniqueDays.sort((a, b) => b.localeCompare(a)); // Descending: "2024-03-16", "2024-03-15", ...
-
-            // Today and yesterday in IST
-            const nowIST = new Date(Date.now() + IST_OFFSET_MS);
-            const todayStr = nowIST.toISOString().split('T')[0];
-            const yesterdayDate = new Date(nowIST);
-            yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-            const yesterdayStr = yesterdayDate.toISOString().split('T')[0];
-
-            if (uniqueDays[0] === todayStr || uniqueDays[0] === yesterdayStr) {
-                currentStreak = 1;
-                for (let i = 1; i < uniqueDays.length; i++) {
-                    const prevDate = new Date(uniqueDays[i - 1]);
-                    const currDate = new Date(uniqueDays[i]);
-                    const diffDays = Math.round(Math.abs(prevDate - currDate) / (1000 * 60 * 60 * 24));
-                    if (diffDays === 1) currentStreak++;
-                    else break;
-                }
-            }
+            uniqueDays.sort((a, b) => b.localeCompare(a));
 
             let currentTemp = 1;
             for (let i = 1; i < uniqueDays.length; i++) {
@@ -94,17 +76,16 @@ app.get('/api/user-stats/:username', async (req, res) => {
                 const diffDays = Math.round(Math.abs(prevDate - currDate) / (1000 * 60 * 60 * 24));
                 if (diffDays === 1) currentTemp++;
                 else {
-                    maxStreak = Math.max(maxStreak, currentTemp);
+                    calculatedMaxStreak = Math.max(calculatedMaxStreak, currentTemp);
                     currentTemp = 1;
                 }
             }
-            maxStreak = Math.max(maxStreak, currentTemp);
+            calculatedMaxStreak = Math.max(calculatedMaxStreak, currentTemp);
         }
 
-        // LeetCode's public API doesn't expose streak-freeze data.
-        // MIN_STREAK_OVERRIDE ensures the portfolio always shows at least the
-        // user's real streak visible on leetcode.com. Update this when needed.
+        // Use the official streak from LeetCode but provide a minimum baseline
         const MIN_STREAK_OVERRIDE = 30;
+        const officialStreak = calendar.streak || 0;
 
         res.json({
             status: 'success',
@@ -112,8 +93,8 @@ app.get('/api/user-stats/:username', async (req, res) => {
             easySolved: stats.find(s => s.difficulty === 'Easy')?.count || 0,
             mediumSolved: stats.find(s => s.difficulty === 'Medium')?.count || 0,
             hardSolved: stats.find(s => s.difficulty === 'Hard')?.count || 0,
-            streak: Math.max(currentStreak, MIN_STREAK_OVERRIDE),
-            maxStreak: Math.max(maxStreak, MIN_STREAK_OVERRIDE),
+            streak: Math.max(officialStreak, MIN_STREAK_OVERRIDE),
+            maxStreak: Math.max(calculatedMaxStreak, officialStreak, MIN_STREAK_OVERRIDE),
             submissionCalendar: calendarJson
         });
     } catch (error) {
