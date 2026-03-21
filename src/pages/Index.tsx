@@ -1,17 +1,19 @@
+import React, { useState, useRef, lazy, Suspense } from "react";
+import { motion, useScroll } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
-import SkillsSection from "@/components/SkillsSection";
-import ProblemSolvingDashboard from "@/components/CodingActivity/ProblemSolvingDashboard";
-import ProjectsSection from "@/components/ProjectsSection";
-import EducationSection from "@/components/EducationSection";
-import CertificatesSection from "@/components/CertificatesSection";
-import ContactSection from "@/components/ContactSection";
-import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
 import ScrollingProfileImage from "@/components/ScrollingProfileImage";
-import { useState, useRef } from "react";
-import { motion, useScroll } from "framer-motion";
+
+// Lazy load off-screen components
+const SkillsSection = lazy(() => import("@/components/SkillsSection"));
+const ProblemSolvingDashboard = lazy(() => import("@/components/CodingActivity/ProblemSolvingDashboard"));
+const ProjectsSection = lazy(() => import("@/components/ProjectsSection"));
+const EducationSection = lazy(() => import("@/components/EducationSection"));
+const CertificatesSection = lazy(() => import("@/components/CertificatesSection"));
+const ContactSection = lazy(() => import("@/components/ContactSection"));
+const Footer = lazy(() => import("@/components/Footer"));
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -40,13 +42,16 @@ const Index = () => {
           <HeroSection />
           <AboutSection />
         </div>
-        <SkillsSection />
-        <ProblemSolvingDashboard />
-        <ProjectsSection />
-        <EducationSection />
-        <CertificatesSection />
-        <ContactSection />
-        <Footer />
+        
+        <Suspense fallback={<div className="h-20" />}>
+          <SkillsSection />
+          <ProblemSolvingDashboard />
+          <ProjectsSection />
+          <EducationSection />
+          <CertificatesSection />
+          <ContactSection />
+          <Footer />
+        </Suspense>
       </motion.div>
     </>
   );

@@ -17,13 +17,13 @@ const Loader = ({ onComplete }: { onComplete: () => void }) => {
         if (currentLine < terminalLines.length - 1) {
             const timeout = setTimeout(() => {
                 setCurrentLine((prev) => prev + 1);
-            }, 450); // Speed of each line appearing
+            }, 200); // Speed of each line appearing
             return () => clearTimeout(timeout);
         } else {
-            // Finish loading exactly at 3 seconds roughly
+            // Finish loading faster
             const finishTimeout = setTimeout(() => {
                 onComplete();
-            }, 800);
+            }, 400);
             return () => clearTimeout(finishTimeout);
         }
     }, [currentLine, onComplete]);

@@ -1,8 +1,14 @@
 import { memo, useEffect } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { ArrowRight, Download, Github, Linkedin, Twitter } from "lucide-react";
+import { ArrowRight, Download, Github, Linkedin } from "lucide-react";
 import portrait from "@/assets/portrait.png";
 import heroScene from "@/assets/hero-scene.png";
+
+const XLogo = (props: any) => (
+  <svg viewBox="0 0 24 24" {...props} fill="currentColor">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.008 3.974H5.078z" />
+  </svg>
+);
 
 const HeroBackground = memo(() => (
   <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -10,6 +16,7 @@ const HeroBackground = memo(() => (
     <img
       src={heroScene}
       alt=""
+      loading="eager"
       className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none"
     />
     
@@ -26,7 +33,7 @@ const HeroBackground = memo(() => (
 const stats = [
   { label: "Projects Built", value: "10+", icon: Github },
   { label: "Active Learner", value: "100%", icon: Linkedin },
-  { label: "Creative Solutions", value: "Custom", icon: Twitter }
+  { label: "Creative Solutions", value: "Custom", icon: XLogo }
 ];
 
 const HeroSection = memo(() => {

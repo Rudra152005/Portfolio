@@ -7,7 +7,7 @@ const educationData = [
         id: 1,
         degree: "B.Tech in Computer Science",
         institution: "Lovely Professional University",
-        duration: "2023 – 2024",
+        duration: "2023 – 2027",
         achievement: "Specialization in Full Stack Development",
         icon: GraduationCap,
         highlight: true,

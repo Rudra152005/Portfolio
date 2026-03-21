@@ -38,11 +38,11 @@ const CONTACT_INFO = [
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.008 3.974H5.078z" />
       </svg>
     ),
-    label: "X (Twitter)",
+    label: "X",
     value: "@tiwar95562",
     href: "https://x.com/tiwar95562",
-    color: "from-blue-400/20 to-blue-300/20",
-    accent: "text-blue-300"
+    color: "from-gray-600/20 to-gray-400/20",
+    accent: "text-gray-300"
   }
 ];
 

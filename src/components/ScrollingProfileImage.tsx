@@ -103,6 +103,7 @@ const ScrollingProfileImage = ({ progress }: ScrollingProfileImageProps) => {
                   <img
                     src={portrait}
                     alt="Rudra Tiwari"
+                    loading="eager"
                     className="w-full h-full object-cover object-top brightness-105 contrast-[1.02] transition-all duration-700 group-hover:brightness-110"
                   />
 
