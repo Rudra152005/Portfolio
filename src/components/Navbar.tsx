@@ -6,10 +6,10 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { label: "About", href: "#about", icon: User },
   { label: "Skills", href: "#skills", icon: Zap },
-  { label: "Projects", href: "#projects", icon: Layout },
-  { label: "Education", href: "#education", icon: GraduationCap },
   { label: "Activity", href: "#activity", icon: Code2 },
+  { label: "Projects", href: "#projects", icon: Layout },
   { label: "Certificates", href: "#certificates", icon: Award },
+  { label: "Education", href: "#education", icon: GraduationCap },
   { label: "Contact", href: "#contact", icon: MessageSquare },
 ];
 
@@ -100,7 +100,12 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled] = useState(false);
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   // Scroll state
   useEffect(() => {
@@ -109,7 +114,7 @@ export function Navbar() {
 
   // Active section tracking
   useEffect(() => {
-    const sections = ["home", "about", "skills", "projects", "education", "activity", "certificates", "contact"];
+    const sections = ["home", "about", "skills", "activity", "projects", "certificates", "education", "contact"];
     const handle = () => {
       const current = sections.find((s) => {
         const el = document.getElementById(s);
@@ -147,6 +152,12 @@ export function Navbar() {
         >
           {/* Top glow line */}
           <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent" />
+
+          {/* Scroll Progress Indicator */}
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 h-[2px] bg-indigo-500 origin-left z-20"
+            style={{ scaleX }}
+          />
 
           {/* ── Logo ── */}
           <Logo />

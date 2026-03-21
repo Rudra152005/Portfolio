@@ -5,9 +5,9 @@
   to support Tailwind-specific rules (@tailwind, @apply) without warnings.
 */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 @layer base {
   :root {
@@ -67,15 +67,23 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--border));
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
     line-height: 1.6;
     letter-spacing: -0.01em;
     overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   h1,
@@ -94,7 +102,9 @@
 
   /* --- Premium Glassmorphism --- */
   .glass-card {
-    @apply bg-card border border-border rounded-xl;
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
     background: linear-gradient(145deg,
         hsl(220 18% 10% / 0.8),
         hsl(220 18% 6% / 0.9));
@@ -103,7 +113,10 @@
   }
 
   .glass-premium {
-    @apply bg-white/[0.03] border border-white/10 backdrop-blur-2xl rounded-2xl;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(40px);
+    border-radius: 1rem;
     box-shadow:
       inset 0 1px 1px 0 rgb(255 255 255 / 0.05),
       0 10px 30px -10px rgb(0 0 0 / 0.5);
@@ -115,7 +128,9 @@
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
     background-image: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 10% 65%));
   }
 
@@ -157,7 +172,8 @@
 
   /* --- Layout & Animation --- */
   .section-fade {
-    @apply opacity-0 translate-y-8;
+    opacity: 0;
+    transform: translateY(2rem);
     animation: fadeUp 0.8s ease-out forwards;
   }
 
@@ -304,7 +320,7 @@
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -313,11 +329,12 @@
 
 ::-webkit-scrollbar-thumb {
   background: hsl(220 14% 20%);
-  border-radius: 3px;
-  border: 1px solid transparent;
+  border-radius: 10px;
+  border: 2px solid hsl(var(--background));
   background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--glow-blue) / 0.5);
+  background: hsl(var(--glow-blue) / 0.8);
+  box-shadow: 0 0 10px hsl(var(--glow-blue) / 0.3);
 }

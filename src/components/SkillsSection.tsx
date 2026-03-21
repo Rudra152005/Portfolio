@@ -318,10 +318,11 @@ const SkillsSection = () => {
           <h3 className="font-display text-3xl font-black text-white mb-6 tracking-tight">Ecosystem & Workflow</h3>
           <div className="flex flex-wrap justify-center gap-3">
              {[
-               { name: "VS Code", icon: Code }, { name: "Figma", icon: Figma },
-               { name: "Postman", icon: Send }, { name: "Terminal", icon: Terminal },
+               { name: "VS Code", icon: Code }, { name: "Docker", icon: Box },
+               { name: "Git", icon: GitBranch }, { name: "Postman", icon: Send },
+               { name: "Terminal", icon: Terminal }, { name: "Figma", icon: Figma },
                { name: "Vercel", icon: Triangle }, { name: "Jest", icon: TestTube },
-               { name: "Netlify", icon: Globe }, { name: "Storybook", icon: BookOpen }
+               { name: "Netlify", icon: Globe }, { name: "Cloudinary", icon: Cloud }
              ].map((tool, i) => (
                <div key={i} className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.03] border border-white/10 text-white/60 hover:text-indigo-400 hover:border-indigo-500/30 transition-all cursor-default">
                   <tool.icon className="w-4 h-4" />

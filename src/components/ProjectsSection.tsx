@@ -1,5 +1,7 @@
-import { ExternalLink, Globe, Github, Info } from "lucide-react";
+import { ExternalLink, Globe, Github, Info, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 const projects = [
   {
@@ -42,12 +44,13 @@ const colorMap: Record<string, { main: string; glow: string; bg: string; border:
 
 const BrowserFrame = ({ url, name, accent }: { url: string; name: string; accent: string }) => {
   const colors = colorMap[accent] || colorMap.blue;
+  const [isLoading, setIsLoading] = useState(true);
   
   return (
-    <div className={`group relative w-full h-[400px] rounded-xl overflow-hidden bg-background border border-white/5 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:${colors.glow}`}>
+    <div className={`group relative w-full h-[400px] rounded-xl overflow-hidden bg-[#050505] border border-white/5 shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:${colors.glow}`}>
       {/* macOS style title bar */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-white/[0.02]">
-        <div className="flex gap-1.5">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5 bg-white/[0.02] relative z-20">
+        <div className="flex gap-1.5 focus-within:ring-2">
           <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]/80" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]/80" />
           <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]/80" />
@@ -55,17 +58,32 @@ const BrowserFrame = ({ url, name, accent }: { url: string; name: string; accent
         <div className="flex-1 text-center pr-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-white/[0.03] border border-white/5 text-[10px] text-white/30 truncate max-w-[200px]">
             <Globe className="w-3 h-3" />
-            {url.replace("https://", "")}
+            {url.replace("https://", "").replace("http://", "")}
           </div>
         </div>
       </div>
 
       {/* Iframe content */}
       <div className="relative w-full h-full overflow-hidden bg-[#050505]">
+        <AnimatePresence>
+            {isLoading && (
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-[#0a0a0f]"
+                >
+                    <Loader2 className={`w-8 h-8 ${colors.main} animate-spin`} />
+                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em]">Initializing Preview...</p>
+                </motion.div>
+            )}
+        </AnimatePresence>
+
         <iframe
           src={url}
           title={name}
-          className="w-full h-full border-none pointer-events-none sm:pointer-events-auto opacity-90 group-hover:opacity-100 transition-opacity duration-500"
+          onLoad={() => setIsLoading(false)}
+          className={`w-full h-full border-none pointer-events-none sm:pointer-events-auto transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-90 group-hover:opacity-100'}`}
           style={{ height: "calc(100% - 48px)" }}
           loading="lazy"
         />

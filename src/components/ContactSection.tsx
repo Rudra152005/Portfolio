@@ -208,18 +208,36 @@ const ContactSection = () => {
     }
   }, [charIdx, msgIdx]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!name || !email || !message) return;
+
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+      const response = await fetch(`${API_URL}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.status === "success") {
+        setIsDone(true);
+        setName("");
+        setEmail("");
+        setMessage("");
+        setTimeout(() => setIsDone(false), 5000);
+      } else {
+        throw new Error(data.message || "Failed to send message");
+      }
+    } catch (error) {
+      console.error("Contact Form Error:", error);
+      alert("Transmission failure. Please try again or contact me directly via email.");
+    } finally {
       setIsSubmitting(false);
-      setIsDone(true);
-      setTimeout(() => setIsDone(false), 5000);
-      setName("");
-      setEmail("");
-      setMessage("");
-    }, 2000);
+    }
   };
 
   return (

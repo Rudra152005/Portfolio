@@ -1,5 +1,5 @@
-import React, { forwardRef } from "react";
-import { motion } from "framer-motion";
+import React, { forwardRef, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import portrait from "@/assets/portrait.png";
 import { Download, Code2, Cpu, Globe, Database, Layout, Zap, Fingerprint } from "lucide-react";
 import AboutBackground from "./AboutBackground";
@@ -13,17 +13,32 @@ const techStack = [
   { name: "Tailwind", icon: Zap, color: "text-blue-400" },
 ];
 
-// Use animate instead of whileInView — section is inside a sticky container
-// so viewport detection doesn't work reliably.
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0 },
 };
 
 const AboutSection = forwardRef<HTMLDivElement>((props, ref) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
+
   return (
     <section
-      id="about-section"
+      ref={(node: HTMLDivElement | null) => {
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          (ref as any).current = node;
+        }
+        (containerRef as any).current = node;
+      }}
+      id="about"
       className="relative h-screen flex flex-col justify-center overflow-hidden"
     >
       <AboutBackground />
@@ -34,8 +49,9 @@ const AboutSection = forwardRef<HTMLDivElement>((props, ref) => {
 
           {/* LEFT: circular profile image (Hybrid approach) */}
           <div className="flex justify-center items-center w-full">
-            {/* MOBILE ONLY: Static Profile Image */}
+            {/* MOBILE ONLY: Static Profile Image with parallax */}
             <motion.div
+              style={{ y, scale }}
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-100px" }}
@@ -60,7 +76,11 @@ const AboutSection = forwardRef<HTMLDivElement>((props, ref) => {
             </motion.div>
 
             {/* DESKTOP ONLY: Invisible Spacer for scrolling 3D Image */}
-            <div id="about-profile-spacer" className="hidden lg:block w-[380px] h-[380px] rounded-full shrink-0" />
+            <motion.div 
+               style={{ y: useTransform(scrollYProgress, [0, 1], [0, -30]) }}
+               id="about-profile-spacer" 
+               className="hidden lg:block w-[380px] h-[380px] rounded-full shrink-0" 
+            />
           </div>
 
           {/* RIGHT: content */}
